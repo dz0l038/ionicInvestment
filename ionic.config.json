@@ -1,0 +1,7 @@
+{
+  "name": "investment",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

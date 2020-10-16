@@ -1,14 +1,19 @@
 #Profile {
     #headerRow {
-        height: 200px;
         background: url(../assets/profile_background.jpg) no-repeat center center fixed;
+        background-size: cover;
         box-shadow: 0 -8px 8px 8px lightgray;
         color: var(--ion-color-primary-contrast);
         font-size: 2em;
         font-weight: 500;
-        margin-bottom: 70px;
-        img {
+        //margin-bottom: 70px;
+        ion-col {
+            //height: 100px;
+        }
+        .profile-picture {
             border-radius: 50%;
+            overflow: hidden;
+            
         }
     }
 }

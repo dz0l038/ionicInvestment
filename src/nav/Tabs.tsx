@@ -12,7 +12,7 @@ import {
 import { list, personCircleOutline, trophyOutline } from 'ionicons/icons'
 import List from '../pages/List';
 import Profile from '../pages/Profile';
-import { ROUTE_DETAIL, ROUTE_LIST, ROUTE_PROFILE, ROUTE_TABS_BASE } from './Routes';
+import { ROUTE_LIST, ROUTE_PROFILE, ROUTE_TABS_BASE } from './Routes';
 
 const Tabs: React.FC = () => (
     <IonTabs>

@@ -12,13 +12,24 @@ import {
   IonPage,
   IonRow,
 } from '@ionic/react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Profile.scss';
 
 import profile from '../assets/profile_lowDef.jpg';
+import AppContext from '../data/app-context';
+import FinancialInfoItem from '../components/FinancialInfoItem';
+
 
 const Profile: React.FC = () => {
   const [showAlert, setShowAlert] = useState(false);
+  const appCtx = useContext(AppContext)
+
+  const updateUsername = (newUsername: string) => {
+    let updatedProfile = { ...appCtx.profile }
+    updatedProfile.username = newUsername;
+    appCtx.updateProfile(updatedProfile);
+  }
+
   return (
     <IonPage id="Profile">
       <IonContent>
@@ -27,7 +38,7 @@ const Profile: React.FC = () => {
             <IonCol size="6" sizeSm="5" sizeMd="3" sizeLg="2" className="ion-text-center ion-padding">
               <IonImg className="profile-picture" onClick={() => setShowAlert(true)} src={profile} alt="profile" />
             </IonCol>
-            <IonCol size="12"onClick={() => setShowAlert(true)} className="ion-text-center ion-padding-bottom">Yann</IonCol>
+            <IonCol size="12" onClick={() => setShowAlert(true)} className="ion-text-center ion-padding-bottom">{appCtx.profile.username}</IonCol>
           </IonRow>
           <IonRow>
             <IonCol sizeSm="10" sizeMd="8" offsetSm="1" offsetMd="2">
@@ -35,36 +46,11 @@ const Profile: React.FC = () => {
                 <IonListHeader className="ion-padding-bottom">
                   Financial Information
                 </IonListHeader>
-                <IonItem>
-                  <IonLabel>
-                    Loan rate
-                  </IonLabel>
-                  <IonNote onClick={() => setShowAlert(true)} slot="end">2%</IonNote>
-                </IonItem>
-                <IonItem>
-                  <IonLabel>
-                    Insurance loan rate
-                  </IonLabel>
-                  <IonNote onClick={() => setShowAlert(true)} slot="end">0.3%</IonNote>
-                </IonItem>
-                <IonItem>
-                  <IonLabel>
-                    Loan period
-                  </IonLabel>
-                  <IonNote onClick={() => setShowAlert(true)} slot="end">15 years</IonNote>
-                </IonItem>
-                <IonItem>
-                  <IonLabel>
-                    Notary fees
-                  </IonLabel>
-                  <IonNote onClick={() => setShowAlert(true)} slot="end">8%</IonNote>
-                </IonItem>
-                <IonItem>
-                  <IonLabel>
-                    Contribution
-                  </IonLabel>
-                  <IonNote onClick={() => setShowAlert(true)} slot="end">1000€</IonNote>
-                </IonItem>
+                <FinancialInfoItem field='loanRate' friendlyName='Loan rate' unit="%" />
+                <FinancialInfoItem field='insuranceRate' friendlyName='Insurance loan rate' unit="%" />
+                <FinancialInfoItem field='loanPeriod' friendlyName='Loan period' unit=" years" />
+                <FinancialInfoItem field='notaryFees' friendlyName='Notary fees' unit="%" />
+                <FinancialInfoItem field='contribution' friendlyName='Contribution' unit="€" />
               </IonList>
             </IonCol>
           </IonRow>
@@ -73,14 +59,14 @@ const Profile: React.FC = () => {
       <IonAlert
         isOpen={showAlert}
         onDidDismiss={() => setShowAlert(false)}
-        header={'Update Data'}
+        header={'Username'}
         inputs={[
           {
-            name: 'data',
-            type: 'number',
-            id: 'data-id',
-            value: 2,
-            placeholder: 'Your data'
+            name: 'usernameInput',
+            type: 'text',
+            id: 'profile-username',
+            value: appCtx.profile.username,
+            placeholder: 'Your username'
           }
         ]}
         buttons={[
@@ -93,9 +79,7 @@ const Profile: React.FC = () => {
           },
           {
             text: 'Ok',
-            handler: () => {
-              console.log('Confirm Ok');
-            }
+            handler: (alertData) => updateUsername(alertData.usernameInput)
           }
         ]}
       />

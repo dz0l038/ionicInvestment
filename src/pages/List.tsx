@@ -17,16 +17,16 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { add } from 'ionicons/icons';
 import ApartmentCard from '../components/ApartmentCard';
 import AddApartmentModal from '../components/AddApartmentModal';
-import { APP_DATA } from '../data/appData';
+import AppContext from '../data/app-context';
 
 const List: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-
+  const appCtx = useContext(AppContext);
   return (
     <IonPage>
       <AddApartmentModal showModal={showModal} setShowModal={setShowModal} />
@@ -36,13 +36,13 @@ const List: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonGrid>
+        <IonGrid className="ion-no-padding">
           <IonRow>
             <IonCol sizeMd="10" offsetMd="1">
               <IonGrid>
                 <IonRow>
                   {
-                    APP_DATA.map((apartment, index) => (
+                    appCtx.apartments.map((apartment, index) => (
                       <IonCol size="12" sizeSm="6" sizeMd="4" sizeXl="3" key={index}>
                         <ApartmentCard apartmentId={apartment.id} />
                       </IonCol>

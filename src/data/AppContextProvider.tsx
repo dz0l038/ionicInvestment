@@ -1,21 +1,41 @@
 import React, { useState } from 'react';
-import AppContext, { Appartment } from './app-context';
+import AppContext, { Apartment, Profile, defaultProfile } from './app-context';
 
 const AppContextProvider: React.FC = (props) => {
-    const [appartments, setAppartments] = useState<Appartment[]>([])
+    const [apartments, setApartments] = useState<Apartment[]>([])
+    const [profile, setProfile] = useState<Profile>(defaultProfile)
 
-    const addAppartment = (newAppartment: Appartment) => {
-
+    const addApartment = (newapartment: Apartment) => {
+        setApartments((prevState) => {
+            let newList = [...prevState];
+            newList.unshift(newapartment)
+            return newList
+        })
     }
 
-    const deleteAppartment = (id: string) => {
-
+    const deleteApartment = (id: string) => {
+        const index = apartments.map(el => el.id).indexOf(id)
+        setApartments((prevState) => {
+            let newList = [...prevState];
+            newList.splice(index, 1)
+            return newList
+        })
     }
 
-    const updateAppartment = (updateAppartment: Appartment) => {
+    const updateApartment = (updateApartment: Apartment) => {
+        const index = apartments.map(el => el.id).indexOf(updateApartment.id)
+        setApartments((prevState) => {
+            let newList = [...prevState];
+            newList.splice(index, 1, updateApartment)
+            return newList
+        })
     }
 
-    return <AppContext.Provider value={{ appartments, addAppartment, deleteAppartment, updateAppartment }}>
+    const updateProfile = (updateProfile: Profile) => {
+        setProfile(updateProfile)
+    }
+
+    return <AppContext.Provider value={{ apartments, profile, updateProfile, addApartment, deleteApartment, updateApartment }}>
         {props.children}
     </AppContext.Provider>
 }

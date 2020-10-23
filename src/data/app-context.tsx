@@ -40,6 +40,7 @@ export const defaultProfile: Profile = {
 }
 
 interface AppContext {
+    initContext: () => void,
     apartments: Apartment[],
     addApartment: (newApartment: Apartment) => void,
     deleteApartment: (id: string) => void,
@@ -49,6 +50,7 @@ interface AppContext {
 }
 
 const AppContext = React.createContext<AppContext>({
+    initContext: () => {},
     apartments: [],
     addApartment: () => { },
     deleteApartment: () => { },

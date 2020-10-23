@@ -15,9 +15,9 @@ import {
 import React, { useContext, useState } from 'react';
 import './Profile.scss';
 
-import profile from '../assets/profile_lowDef.jpg';
 import AppContext from '../data/app-context';
 import FinancialInfoItem from '../components/FinancialInfoItem';
+import ProfilePicture from '../components/ProfilePicture';
 
 
 const Profile: React.FC = () => {
@@ -35,9 +35,7 @@ const Profile: React.FC = () => {
       <IonContent>
         <IonGrid className="ion-no-padding">
           <IonRow id="headerRow" className="ion-justify-content-around ion-align-items-center">
-            <IonCol size="6" sizeSm="5" sizeMd="3" sizeLg="2" className="ion-text-center ion-padding">
-              <IonImg className="profile-picture" onClick={() => setShowAlert(true)} src={profile} alt="profile" />
-            </IonCol>
+            <ProfilePicture />
             <IonCol size="12" onClick={() => setShowAlert(true)} className="ion-text-center ion-padding-bottom">{appCtx.profile.username}</IonCol>
           </IonRow>
           <IonRow>

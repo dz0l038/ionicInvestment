@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AppContext, { Apartment, Profile, defaultProfile } from './app-context';
+
+import { Plugins } from '@capacitor/core'
+
+const { Storage } = Plugins;
 
 const AppContextProvider: React.FC = (props) => {
     const [apartments, setApartments] = useState<Apartment[]>([])
     const [profile, setProfile] = useState<Profile>(defaultProfile)
+
+    useEffect(() => {
+        Storage.set({key: 'profile', value: JSON.stringify(profile)})
+    }, [profile])
 
     const addApartment = (newapartment: Apartment) => {
         setApartments((prevState) => {
@@ -35,7 +43,13 @@ const AppContextProvider: React.FC = (props) => {
         setProfile(updateProfile)
     }
 
-    return <AppContext.Provider value={{ apartments, profile, updateProfile, addApartment, deleteApartment, updateApartment }}>
+    const initContext = async () => {
+        const profileData = await Storage.get({key: 'profile'})
+        const storedProfile = profileData.value?  JSON.parse(profileData.value): defaultProfile;
+        setProfile(storedProfile)
+    }
+
+    return <AppContext.Provider value={{ initContext, apartments, profile, updateProfile, addApartment, deleteApartment, updateApartment }}>
         {props.children}
     </AppContext.Provider>
 }

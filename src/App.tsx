@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -28,20 +28,26 @@ import './theme/theme.css';
 import { ROUTE_DETAIL, ROUTE_LIST, ROUTE_TABS_BASE } from './nav/Routes';
 import Details from './pages/Details';
 import Tabs from './nav/Tabs';
-import AppContextProvider from './data/AppContextProvider';
+import AppContext from './data/app-context';
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <AppContextProvider>
+const App: React.FC = () => {
+  const appCtx = useContext(AppContext);
+
+  useEffect(() => {
+    appCtx.initContext();
+  }, [])
+
+  return (
+    <IonApp>
+      <IonReactRouter>
         <IonRouterOutlet>
           <Route path={ROUTE_TABS_BASE} component={Tabs} />
           <Route exact path={`${ROUTE_DETAIL}:id`} component={Details} />
           <Redirect path="/" exact to={ROUTE_LIST} />
         </IonRouterOutlet>
-      </AppContextProvider>
-    </IonReactRouter>
-  </IonApp>
-);
+      </IonReactRouter>
+    </IonApp>
+  )
+};
 
 export default App;

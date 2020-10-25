@@ -1,3 +1,4 @@
+import { FilesystemDirectory, Plugins } from '@capacitor/core';
 import {
     IonButton,
     IonCol,
@@ -16,9 +17,11 @@ import {
     IonTitle,
     IonToolbar
 } from '@ionic/react';
-import { cameraOutline } from 'ionicons/icons';
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import AppContext, { Apartment } from '../data/app-context';
+import AddPictureNewApartment, { Picture } from './AddPictureNewApartment';
+
+const { Filesystem } = Plugins;
 
 const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: boolean) => void }> = (props) => {
     const addressRef = useRef<HTMLIonInputElement>(null);
@@ -29,15 +32,30 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
     const vacancyRef = useRef<HTMLIonInputElement>(null);
     const noteRef = useRef<HTMLIonTextareaElement>(null);
     const appCtx = useContext(AppContext);
+    const [picture, setPicture] = useState<Picture>();
 
-    const addHandler = () => {
+    const resetModal = () => {
+        setPicture(undefined)
+    }
+
+    const addHandler = async () => {
+        // Save picture on filesystem
+        if (picture) {
+            console.log(picture)
+            await Filesystem.writeFile({
+                path: picture.filename,
+                data: picture.base64,
+                directory: FilesystemDirectory.Data
+            })
+        }
+
         let newApartment: Apartment = {
             id: new Date().toISOString(),
-            address: addressRef.current?.value? addressRef.current?.value?.toString(): "Unknown address",
+            address: addressRef.current?.value ? addressRef.current?.value?.toString() : "Unknown address",
             price: priceRef.current?.value ? +priceRef.current?.value : 0,
             addDate: new Date().toISOString(),
             notes: noteRef.current?.value?.toString(),
-            pictures: [],
+            pictures: picture?.filename ? [picture?.filename] : [],
             surface: surfaceRef.current?.value ? +surfaceRef.current?.value : 0,
             renovation: renovationRef.current?.value ? +renovationRef.current?.value : 0,
             rent: rentRef.current?.value ? +rentRef.current?.value : 0,
@@ -47,8 +65,12 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
         props.setShowModal(false)
     }
 
+    const updatePicture = (newPicture: Picture) => {
+        setPicture(newPicture)
+    }
+
     return (
-        <IonModal isOpen={props.showModal}>
+        <IonModal isOpen={props.showModal} onDidPresent={resetModal}>
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Add new apartment</IonTitle>
@@ -92,8 +114,7 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
                     <IonItem className="ion-padding-top">
                         <IonTextarea rows={5} placeholder="Enter any notes here..." ref={noteRef}></IonTextarea>
                     </IonItem>
-                    <IonListHeader className="ion-margin-top">Pictures</IonListHeader>
-                    <IonButton className="ion-margin"><IonIcon icon={cameraOutline} /></IonButton>
+                    <AddPictureNewApartment updatePicture={updatePicture} />
                 </IonList>
                 <IonGrid>
                     <IonRow className="ion-justify-content-between">

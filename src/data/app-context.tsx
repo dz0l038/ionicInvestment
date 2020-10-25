@@ -50,7 +50,7 @@ interface AppContext {
 }
 
 const AppContext = React.createContext<AppContext>({
-    initContext: () => {},
+    initContext: () => { },
     apartments: [],
     addApartment: () => { },
     deleteApartment: () => { },

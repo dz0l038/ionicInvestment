@@ -1,17 +1,25 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import AppContext, { Apartment, Profile, defaultProfile } from './app-context';
 
-import { Plugins } from '@capacitor/core'
+import { Filesystem, Plugins } from '@capacitor/core'
+import { connect } from 'tls';
 
 const { Storage } = Plugins;
 
 const AppContextProvider: React.FC = (props) => {
     const [apartments, setApartments] = useState<Apartment[]>([])
     const [profile, setProfile] = useState<Profile>(defaultProfile)
+    const didMountRef = useRef(false);
 
     useEffect(() => {
-        Storage.set({key: 'profile', value: JSON.stringify(profile)})
-    }, [profile])
+        if (didMountRef.current) {
+            console.log(profile)
+            Storage.set({ key: 'profile', value: JSON.stringify(profile) })
+            Storage.set({ key: 'apartments', value: JSON.stringify(apartments) })
+        } else {
+            didMountRef.current = true;
+        }
+    }, [profile, apartments])
 
     const addApartment = (newapartment: Apartment) => {
         setApartments((prevState) => {
@@ -44,9 +52,13 @@ const AppContextProvider: React.FC = (props) => {
     }
 
     const initContext = async () => {
-        const profileData = await Storage.get({key: 'profile'})
-        const storedProfile = profileData.value?  JSON.parse(profileData.value): defaultProfile;
+        const profileData = await Storage.get({ key: 'profile' })
+        const apartmentsData = await Storage.get({ key: 'apartments' })
+        const storedProfile = profileData.value ? JSON.parse(profileData.value) : defaultProfile;
+        const storedApartments = apartmentsData.value ? JSON.parse(apartmentsData.value) : [];
+        didMountRef.current = false;
         setProfile(storedProfile)
+        setApartments(storedApartments)
     }
 
     return <AppContext.Provider value={{ initContext, apartments, profile, updateProfile, addApartment, deleteApartment, updateApartment }}>

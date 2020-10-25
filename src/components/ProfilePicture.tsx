@@ -54,7 +54,6 @@ const ProfilePicture: React.FC = () => {
             <IonFabButton style={{ position: 'absolute', top: "15px", right: "0" }} color="danger" onClick={takePhotoHandler}>
                 <IonIcon icon={pencilOutline} />
             </IonFabButton>
-
         </IonCol>
     )
 }

@@ -1,5 +1,13 @@
 {
   "name": "investment",
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/?!(@capacitor/core)"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.ts*"
+    ]
+  },
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -30,7 +38,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

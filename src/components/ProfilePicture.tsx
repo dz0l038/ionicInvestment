@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonFabButton, IonIcon } from '@ionic/react';
+import { IonCol, IonFabButton, IonIcon } from '@ionic/react';
 import React, { useContext, useEffect, useState } from 'react';
 import defaultProfile from '../assets/defaultProfile.jpg';
 import { pencilOutline } from 'ionicons/icons';

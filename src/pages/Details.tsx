@@ -32,6 +32,7 @@ import { cashflow, monthLoanPrice, priceM2, profitability, loanAmount, totalPric
 import { ROUTE_LIST } from '../nav/Routes';
 import { Plugins, FilesystemDirectory, CameraResultType, CameraSource } from '@capacitor/core';
 import { base64FromPath } from '@ionic/react-hooks/filesystem';
+import ResponsiveContent from '../components/ResponsiveContent';
 
 const { Filesystem, Camera } = Plugins;
 
@@ -138,7 +139,7 @@ const Details: React.FC = () => {
 
           <IonGrid>
             <IonRow>
-              <IonCol sizeSm="10" sizeMd="8" offsetSm="1" offsetMd="2">
+              <ResponsiveContent>
                 <IonGrid>
                   <IonRow className="ion-align-items-center">
                     <IonCol style={{ color: "grey" }}>
@@ -212,7 +213,7 @@ const Details: React.FC = () => {
                     </IonCol>
                   </IonRow>
                 </IonGrid>
-              </IonCol>
+              </ResponsiveContent>
             </IonRow>
           </IonGrid>
 

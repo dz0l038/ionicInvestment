@@ -23,6 +23,7 @@ import { add } from 'ionicons/icons';
 import ApartmentCard from '../components/ApartmentCard';
 import AddApartmentModal from '../components/AddApartmentModal';
 import AppContext from '../data/app-context';
+import ResponsiveContent from '../components/ResponsiveContent';
 
 const List: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -38,19 +39,19 @@ const List: React.FC = () => {
       <IonContent className="ion-padding">
         <IonGrid className="ion-no-padding">
           <IonRow>
-            <IonCol sizeMd="10" offsetMd="1">
+            <ResponsiveContent>
               <IonGrid>
                 <IonRow>
                   {
                     appCtx.apartments.map((apartment, index) => (
-                      <IonCol size="12" sizeSm="6" sizeMd="4" sizeXl="3" key={index}>
+                      <IonCol size="12" sizeSm="6" sizeXl="4" key={index}>
                         <ApartmentCard apartmentId={apartment.id} />
                       </IonCol>
                     ))
                   }
                 </IonRow>
               </IonGrid>
-            </IonCol>
+            </ResponsiveContent>
           </IonRow>
         </IonGrid>
         <IonFab vertical="bottom" horizontal="end" slot="fixed">

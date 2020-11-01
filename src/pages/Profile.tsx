@@ -18,6 +18,7 @@ import './Profile.scss';
 import AppContext from '../data/app-context';
 import FinancialInfoItem from '../components/FinancialInfoItem';
 import ProfilePicture from '../components/ProfilePicture';
+import ResponsiveContent from '../components/ResponsiveContent';
 
 
 const Profile: React.FC = () => {
@@ -39,7 +40,7 @@ const Profile: React.FC = () => {
             <IonCol size="12" onClick={() => setShowAlert(true)} className="ion-text-center ion-padding-bottom">{appCtx.profile.username}</IonCol>
           </IonRow>
           <IonRow>
-            <IonCol sizeSm="10" sizeMd="8" offsetSm="1" offsetMd="2">
+            <ResponsiveContent>
               <IonList className="ion-padding" mode="ios">
                 <IonListHeader className="ion-padding-bottom">
                   Financial Information
@@ -50,7 +51,7 @@ const Profile: React.FC = () => {
                 <FinancialInfoItem field='notaryFees' friendlyName='Notary fees' unit="%" />
                 <FinancialInfoItem field='contribution' friendlyName='Contribution' unit="€" />
               </IonList>
-            </IonCol>
+            </ResponsiveContent>
           </IonRow>
         </IonGrid>
       </IonContent>

@@ -3,23 +3,20 @@ import {
   IonCol,
   IonContent,
   IonGrid,
-  IonImg,
-  IonItem,
-  IonLabel,
   IonList,
   IonListHeader,
-  IonNote,
   IonPage,
   IonRow,
+  IonSpinner,
 } from '@ionic/react';
-import React, { useContext, useState } from 'react';
+import React, { Suspense, useContext, useState } from 'react';
 import './Profile.scss';
 
 import AppContext from '../data/app-context';
 import FinancialInfoItem from '../components/FinancialInfoItem';
-import ProfilePicture from '../components/ProfilePicture';
 import ResponsiveContent from '../components/ResponsiveContent';
 
+const ProfilePicture = React.lazy(() => import('../components/ProfilePicture'))
 
 const Profile: React.FC = () => {
   const [showAlert, setShowAlert] = useState(false);
@@ -36,7 +33,9 @@ const Profile: React.FC = () => {
       <IonContent>
         <IonGrid className="ion-no-padding">
           <IonRow id="headerRow" className="ion-justify-content-around ion-align-items-center">
-            <ProfilePicture />
+            <Suspense fallback={<IonSpinner />}>
+              <ProfilePicture />
+            </Suspense>
             <IonCol size="12" onClick={() => setShowAlert(true)} className="ion-text-center ion-padding-bottom">{appCtx.profile.username}</IonCol>
           </IonRow>
           <IonRow>

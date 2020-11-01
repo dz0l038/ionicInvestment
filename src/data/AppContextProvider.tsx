@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AppContext, { Apartment, Profile, defaultProfile } from './app-context';
 
-import { Filesystem, Plugins } from '@capacitor/core'
-import { connect } from 'tls';
+import { Plugins } from '@capacitor/core'
 
-const { Storage } = Plugins;
+const { Storage, Filesystem } = Plugins;
 
 const AppContextProvider: React.FC = (props) => {
     const [apartments, setApartments] = useState<Apartment[]>([])

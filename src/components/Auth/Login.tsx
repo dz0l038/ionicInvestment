@@ -1,11 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import firebase from "../../firebase";
 import "firebase/auth";
 import "firebase/firestore";
 import AppContext from "../../data/app-context";
 import { ROUTE_LIST, ROUTE_SIGN_UP } from "../../nav/Routes";
-import { IonAlert, IonButton, IonContent, IonInput, IonItem, IonLabel, IonList, IonPage } from "@ionic/react";
+import { IonAlert, IonButton, IonContent, IonIcon, IonInput, IonItem, IonLabel, IonList, IonPage } from "@ionic/react";
+import { logoGoogle } from "ionicons/icons";
 
 interface UserData {
     email: string;
@@ -20,6 +21,12 @@ const Login: React.FC = () => {
         email: "",
         password: ""
     });
+
+    useEffect(() => {
+        if (firebase.auth().currentUser) {
+            history.push(ROUTE_LIST);
+        }
+    }, [appCtx.user])
 
     const handleClick = () => {
         history.push(ROUTE_SIGN_UP);
@@ -50,6 +57,11 @@ const Login: React.FC = () => {
             });
     }
 
+    const handleWithGoogle = () => {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithRedirect(provider);
+    }
+
     return (
         <IonPage>
             <IonContent fullscreen>
@@ -70,7 +82,15 @@ const Login: React.FC = () => {
                                         <IonInput type="password" name="password" value={values.password} onIonChange={handleChange} ></IonInput>
                                     </IonItem>
                                 </IonList>
-                                <IonButton onClick={handleSubmit}>Login</IonButton>
+                                <div style={{ marginTop: "1em" }}>
+                                    <IonButton expand="full" onClick={handleSubmit}>Login</IonButton>
+                                </div>
+                                <div style={{ marginTop: "1em", paddingTop: "1em", borderTop: "1px solid grey" }}>
+                                    <IonButton expand="full" color="danger" onClick={handleWithGoogle}>
+                                        <IonIcon icon={logoGoogle} slot="start" />
+                                        Login with Google
+                                        </IonButton>
+                                </div>
                                 <div>
                                     <p style={{ margin: "0", marginTop: "2em" }}>
                                         Not logged in yet?

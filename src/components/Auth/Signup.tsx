@@ -5,7 +5,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import AppContext from "../../data/app-context";
 import { ROUTE_LIST, ROUTE_LOGIN } from "../../nav/Routes";
-import { IonButton, IonContent, IonInput, IonItem, IonLabel, IonList, IonPage } from "@ionic/react";
+import { IonAlert, IonButton, IonContent, IonInput, IonItem, IonLabel, IonList, IonPage } from "@ionic/react";
 interface FormItems {
   username: string;
   phone: string;
@@ -14,6 +14,8 @@ interface FormItems {
 }
 const SignUp = () => {
   const appCtx = useContext(AppContext);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -46,13 +48,13 @@ const SignUp = () => {
             history.push(ROUTE_LIST);
           })
           .catch(error => {
-            console.log(error.message);
-            alert(error.message);
+            setErrorMessage(error.message)
+            setShowAlert(true)
           });
       })
       .catch(error => {
-        console.log(error.message);
-        alert(error.message);
+        setErrorMessage(error.message)
+        setShowAlert(true)
       });
   }
 
@@ -92,7 +94,10 @@ const SignUp = () => {
                     <IonInput type="password" name="password" value={values.password} onIonChange={handleChange} ></IonInput>
                   </IonItem>
                 </IonList>
-                <IonButton onClick={handleSubmit}>Sign Up</IonButton>
+                <div style={{ marginTop: "1em" }}>
+                  <IonButton expand="full" onClick={handleSubmit}>Sign Up</IonButton>
+                </div>
+
                 <div>
                   <p style={{ margin: "0", marginTop: "2em" }}>
                     Already have account?
@@ -107,6 +112,16 @@ const SignUp = () => {
           <div style={{ flexGrow: 1 }} />
         </div>
       </IonContent>
+      <IonAlert
+        isOpen={showAlert}
+        header={errorMessage}
+        onDidDismiss={() => { setErrorMessage(""); setShowAlert(false) }}
+        buttons={[
+          {
+            text: 'Ok'
+          }
+        ]}
+      />
     </IonPage>
   );
 }

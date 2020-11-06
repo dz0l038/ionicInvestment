@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from "../firebase";
 
 export interface Apartment {
     id: string,
@@ -45,8 +46,15 @@ interface AppContext {
     addApartment: (newApartment: Apartment) => void,
     deleteApartment: (id: string) => void,
     updateApartment: (updatedApartment: Apartment) => void,
+
+    
     profile: Profile,
-    updateProfile: (updatedProfile: Profile) => void
+    updateProfile: (updatedProfile: Profile) => void,
+
+    user: firebase.User | null,
+    authenticated: boolean;
+    setUser: any;
+    loadingAuthState: boolean;
 }
 
 const AppContext = React.createContext<AppContext>({
@@ -55,8 +63,14 @@ const AppContext = React.createContext<AppContext>({
     addApartment: () => { },
     deleteApartment: () => { },
     updateApartment: () => { },
+    
     profile: defaultProfile,
-    updateProfile: () => { }
+    updateProfile: () => { },
+
+    user: null,
+    authenticated: false,
+    setUser: () => {},
+    loadingAuthState: false,
 });
 
 export default AppContext

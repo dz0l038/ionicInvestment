@@ -1,8 +1,10 @@
 import {
   IonAlert,
+  IonButton,
   IonCol,
   IonContent,
   IonGrid,
+  IonIcon,
   IonList,
   IonListHeader,
   IonPage,
@@ -15,6 +17,8 @@ import './Profile.scss';
 import AppContext from '../data/app-context';
 import FinancialInfoItem from '../components/FinancialInfoItem';
 import ResponsiveContent from '../components/ResponsiveContent';
+import Logout from '../components/Auth/Logout';
+import { logOutOutline } from 'ionicons/icons';
 
 const ProfilePicture = React.lazy(() => import('../components/ProfilePicture'))
 
@@ -36,7 +40,12 @@ const Profile: React.FC = () => {
             <Suspense fallback={<IonSpinner />}>
               <ProfilePicture />
             </Suspense>
-            <IonCol size="12" onClick={() => setShowAlert(true)} className="ion-text-center ion-padding-bottom">{appCtx.profile.username}</IonCol>
+            <IonCol size="12" onClick={() => setShowAlert(true)} className="ion-text-center">{appCtx.profile.username}</IonCol>
+            <IonCol size="12" className="ion-text-end ion-padding">
+              <Logout>
+                <IonButton fill="default"><IonIcon slot="start" icon={logOutOutline} />Logout</IonButton>
+              </Logout>
+            </IonCol>
           </IonRow>
           <IonRow>
             <ResponsiveContent>

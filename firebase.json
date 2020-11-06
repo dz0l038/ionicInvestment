@@ -1,6 +1,18 @@
 {
   "hosting": {
+    "headers": [
+      {
+        "source": "/service-worker.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
+    ],
     "public": "build",
+    "site": "ionic-react-investment-4cd86",
     "ignore": [
       "firebase.json",
       "**/.*",

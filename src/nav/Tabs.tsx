@@ -9,7 +9,7 @@ import {
     IonTabs
 } from '@ionic/react';
 
-import { list, personCircleOutline, trophyOutline } from 'ionicons/icons'
+import { list, personCircleOutline } from 'ionicons/icons'
 import List from '../pages/List';
 import Profile from '../pages/Profile';
 import { ROUTE_LIST, ROUTE_PROFILE, ROUTE_TABS_BASE } from './Routes';

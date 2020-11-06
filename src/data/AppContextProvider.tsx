@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AppContext, { Apartment, Profile, defaultProfile } from './app-context';
+import firebase from "../firebase";
 
 import { Plugins } from '@capacitor/core'
 
@@ -8,8 +9,20 @@ const { Storage, Filesystem } = Plugins;
 const AppContextProvider: React.FC = (props) => {
     const [apartments, setApartments] = useState<Apartment[]>([])
     const [profile, setProfile] = useState<Profile>(defaultProfile)
+
+    // Auth state
+    const [user, setUser] = useState(null as firebase.User | null);
+    const [loadingAuthState, setLoadingAuthState] = useState(true);
+
     const didMountRef = useRef(false);
 
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged((user: any) => {
+          setUser(user);
+          setLoadingAuthState(false);
+       });
+    }, []);
+    
     useEffect(() => {
         if (didMountRef.current) {
             console.log(profile)
@@ -60,7 +73,22 @@ const AppContextProvider: React.FC = (props) => {
         setApartments(storedApartments)
     }
 
-    return <AppContext.Provider value={{ initContext, apartments, profile, updateProfile, addApartment, deleteApartment, updateApartment }}>
+    return <AppContext.Provider value={{
+        initContext,
+
+        apartments,
+        addApartment,
+        deleteApartment,
+        updateApartment,
+
+        profile,
+        updateProfile,
+
+        user,
+        authenticated: user !== null,
+        setUser,
+        loadingAuthState
+    }}>
         {props.children}
     </AppContext.Provider>
 }

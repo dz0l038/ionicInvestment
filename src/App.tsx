@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Details';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -29,6 +28,8 @@ import { ROUTE_DETAIL, ROUTE_LIST, ROUTE_TABS_BASE } from './nav/Routes';
 import Details from './pages/Details';
 import Tabs from './nav/Tabs';
 import AppContext from './data/app-context';
+import AuthRoutes from './nav/AuthRoutes';
+import PrivateRoute from './nav/PrivateRoutes';
 
 const App: React.FC = () => {
   const appCtx = useContext(AppContext);
@@ -41,9 +42,12 @@ const App: React.FC = () => {
     <IonApp>
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route path={ROUTE_TABS_BASE} component={Tabs} />
-          <Route exact path={`${ROUTE_DETAIL}:id`} component={Details} />
-          <Redirect path="/" exact to={ROUTE_LIST} />
+          <Switch>
+            <PrivateRoute path={ROUTE_TABS_BASE} component={Tabs} />
+            <PrivateRoute exact path={`${ROUTE_DETAIL}:id`} component={Details} />
+            <Route path="/auth" component={AuthRoutes} />
+            <Redirect path="/" to={ROUTE_LIST} />
+          </Switch>
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>

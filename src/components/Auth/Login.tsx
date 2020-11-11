@@ -4,7 +4,7 @@ import firebase from "../../firebase";
 import "firebase/auth";
 import "firebase/firestore";
 import AppContext from "../../data/app-context";
-import { ROUTE_LIST, ROUTE_SIGN_UP } from "../../nav/Routes";
+import { ROUTE_LIST, ROUTE_RESET_PSW, ROUTE_SIGN_UP } from "../../nav/Routes";
 import { IonAlert, IonButton, IonContent, IonIcon, IonInput, IonItem, IonLabel, IonList, IonPage } from "@ionic/react";
 import { logoGoogle } from "ionicons/icons";
 
@@ -27,10 +27,6 @@ const Login: React.FC = () => {
             history.push(ROUTE_LIST);
         }
     }, [appCtx.user])
-
-    const handleClick = () => {
-        history.push(ROUTE_SIGN_UP);
-    }
 
     const handleChange = (event: CustomEvent) => {
         const tar = (event.target as HTMLInputElement)
@@ -85,17 +81,26 @@ const Login: React.FC = () => {
                                 <div style={{ marginTop: "1em" }}>
                                     <IonButton expand="full" onClick={handleSubmit}>Login</IonButton>
                                 </div>
+                                {/* 
                                 <div style={{ marginTop: "1em", paddingTop: "1em", borderTop: "1px solid grey" }}>
                                     <IonButton expand="full" color="danger" onClick={handleWithGoogle}>
                                         <IonIcon icon={logoGoogle} slot="start" />
                                         Login with Google
                                         </IonButton>
                                 </div>
+                                */}
+
                                 <div>
                                     <p style={{ margin: "0", marginTop: "2em" }}>
                                         Not logged in yet?
                                     </p>
-                                    <IonButton onClick={handleClick} fill="clear">SignUp</IonButton>
+                                    <IonButton routerLink={ROUTE_SIGN_UP} fill="clear">SignUp</IonButton>
+                                </div>
+                                <div style={{ fontSize: "0.9em" }}>
+                                    <p style={{ margin: "0", marginTop: "1em" }}>
+                                        Forgot your password?
+                                    </p>
+                                    <IonButton style={{ fontSize: "1em" }} routerLink={ROUTE_RESET_PSW} fill="clear">Reset password</IonButton>
                                 </div>
                             </form>
                         </div>

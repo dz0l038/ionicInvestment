@@ -7,3 +7,4 @@ export const ROUTE_AUTH_BASE = "/auth/";
 export const ROUTE_LOGIN = ROUTE_AUTH_BASE + 'login/'
 export const ROUTE_SIGN_UP = ROUTE_AUTH_BASE + 'signup/'
 export const ROUTE_AUTH_MAIL_CONFIRM = ROUTE_AUTH_BASE + 'confirm-mail/'
+export const ROUTE_RESET_PSW = ROUTE_AUTH_BASE + 'reset-password/'

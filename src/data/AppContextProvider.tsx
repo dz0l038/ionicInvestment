@@ -36,12 +36,11 @@ const AppContextProvider: React.FC = (props) => {
     useEffect(() => {
         if (didMountRef.current) {
             console.log(profile)
-            Storage.set({ key: 'profile', value: JSON.stringify(profile) })
             Storage.set({ key: 'apartments', value: JSON.stringify(apartments) })
         } else {
             didMountRef.current = true;
         }
-    }, [profile, apartments])
+    }, [apartments])
 
     const addApartment = (newapartment: Apartment) => {
         setApartments((prevState) => {
@@ -69,17 +68,24 @@ const AppContextProvider: React.FC = (props) => {
         })
     }
 
-    const updateProfile = (updateProfile: Profile) => {
-        setProfile(updateProfile)
+    const updateProfile = (updatedProfile: Profile) => {
+        const db = firebase.firestore();
+        const docRef = db.collection('Users').doc(user?.uid);
+        db.runTransaction(function (transaction) {
+            return transaction.get(docRef).then(function (doc) {
+                if (!doc.exists) {
+                    console.log("Fail to update profile")
+                } else {
+                    transaction.update(docRef, updatedProfile)
+                }
+            })
+        })
     }
 
     const initContext = async () => {
-        const profileData = await Storage.get({ key: 'profile' })
         const apartmentsData = await Storage.get({ key: 'apartments' })
-        const storedProfile = profileData.value ? JSON.parse(profileData.value) : defaultProfile;
         const storedApartments = apartmentsData.value ? JSON.parse(apartmentsData.value) : [];
         didMountRef.current = false;
-        setProfile(storedProfile)
         setApartments(storedApartments)
     }
 

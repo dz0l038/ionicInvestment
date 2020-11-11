@@ -3,55 +3,56 @@ import React, { useContext, useEffect, useState } from 'react';
 import defaultProfile from '../assets/defaultProfile.jpg';
 import { pencilOutline } from 'ionicons/icons';
 
-import { base64FromPath } from '@ionic/react-hooks/filesystem'
-import { CameraResultType, CameraSource, FilesystemDirectory, Plugins } from '@capacitor/core';
+import { CameraResultType, CameraSource, Plugins } from '@capacitor/core';
 import AppContext from '../data/app-context';
+import firebase from '../firebase';
+import 'firebase/storage';
 
-const { Camera, Filesystem } = Plugins;
+const { Camera } = Plugins;
 
 const ProfilePicture: React.FC = () => {
     const appCtx = useContext(AppContext);
-    const [profileBase64, setProfileBase64] = useState<string>();
-
-    const updateBase64 = async () => {
-        if (!appCtx.profile.picture) return
-        const file = await Filesystem.readFile({
-            path: appCtx.profile.picture,
-            directory: FilesystemDirectory.Data
-        })
-        setProfileBase64('data:image/jpeg;base64,' + file.data)
-    }
+    const [profileUrl, setProfileUrl] = useState<string>();
+    const [uploading, setUploading] = useState<boolean>(false);
 
     useEffect(() => {
-        updateBase64()
+        updatePicture()
     }, [appCtx.profile.picture])
 
     const takePhotoHandler = async () => {
         const photo = await Camera.getPhoto({
             quality: 80,
-            resultType: CameraResultType.Uri,
+            resultType: CameraResultType.Base64,
             source: CameraSource.Prompt,
             width: 500,
         });
 
-        if (!photo || !photo.webPath) return
+        if (!photo || !photo.base64String || !appCtx.user || !appCtx.user.uid) return
 
-        const base64 = await base64FromPath(photo.webPath)
-        const fileName = new Date().getTime() + '.jpeg'
-        await Filesystem.writeFile({
-            path: fileName,
-            data: base64,
-            directory: FilesystemDirectory.Data
-        })
-
-        let updatedProfile = { ...appCtx.profile }
-        updatedProfile.picture = fileName;
-        appCtx.updateProfile(updatedProfile)
+        setUploading(true)
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        const imageRef = storageRef.child(appCtx.user.uid + '.jpeg');
+        const uploadTask = await imageRef.putString(photo.base64String, 'base64')
+        console.log(uploadTask)
+        setUploading(false)
+        updatePicture()
     }
+
+    const updatePicture = () => {
+        const storage = firebase.storage();
+        const storageRef = storage.ref();
+        if (!appCtx.user || !appCtx.user.uid) return
+        storageRef.child(appCtx.user.uid + '.jpeg').getDownloadURL().then(function (url) {
+            console.log(url)
+            setProfileUrl(url)
+        })
+    }
+
     return (
         <IonCol size="6" sizeSm="5" sizeMd="3" sizeLg="2" className="ion-text-center ion-padding">
-            <div className="profile-picture" style={{ backgroundImage: `url(${profileBase64 ? profileBase64 : defaultProfile})` }} />
-            <IonFabButton style={{ position: 'absolute', top: "15px", right: "0" }} color="danger" onClick={takePhotoHandler}>
+            <div className="profile-picture" style={{ backgroundImage: `url(${profileUrl && !uploading ? profileUrl : defaultProfile})` }} />
+            <IonFabButton disabled={uploading} style={{ position: 'absolute', top: "15px", right: "0" }} color="danger" onClick={takePhotoHandler}>
                 <IonIcon icon={pencilOutline} />
             </IonFabButton>
         </IonCol>

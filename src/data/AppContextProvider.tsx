@@ -18,11 +18,21 @@ const AppContextProvider: React.FC = (props) => {
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user: any) => {
-          setUser(user);
-          setLoadingAuthState(false);
-       });
+            setUser(user);
+            setLoadingAuthState(false);
+            let firebaseUser = user as firebase.User;
+            const db = firebase.firestore();
+            if (firebaseUser && firebaseUser.uid) {
+                db.collection("Users").doc(firebaseUser.uid)
+                    .onSnapshot(function (doc) {
+                        const updatedProfile = doc.data() as Profile;
+                        console.log("Current data: ", updatedProfile);
+                        setProfile(updatedProfile)
+                    });
+            }
+        });
     }, []);
-    
+
     useEffect(() => {
         if (didMountRef.current) {
             console.log(profile)

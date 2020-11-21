@@ -32,9 +32,8 @@ const ProfilePicture: React.FC = () => {
         setUploading(true)
         const storage = firebase.storage();
         const storageRef = storage.ref();
-        const imageRef = storageRef.child(appCtx.user.uid + '.jpeg');
-        const uploadTask = await imageRef.putString(photo.base64String, 'base64')
-        console.log(uploadTask)
+        const imageRef = storageRef.child(appCtx.user.uid + '/' + appCtx.user.uid + '.jpeg');
+        await imageRef.putString(photo.base64String, 'base64')
         setUploading(false)
         updatePicture()
     }
@@ -43,8 +42,7 @@ const ProfilePicture: React.FC = () => {
         const storage = firebase.storage();
         const storageRef = storage.ref();
         if (!appCtx.user || !appCtx.user.uid) return
-        storageRef.child(appCtx.user.uid + '.jpeg').getDownloadURL().then(function (url) {
-            console.log(url)
+        storageRef.child(appCtx.user.uid + '/' + appCtx.user.uid + '.jpeg').getDownloadURL().then(function (url) {
             setProfileUrl(url)
         })
     }

@@ -1,9 +1,4 @@
 import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
   IonCol,
   IonContent,
   IonFab,
@@ -11,7 +6,6 @@ import {
   IonGrid,
   IonHeader,
   IonIcon,
-  IonImg,
   IonPage,
   IonRow,
   IonTitle,

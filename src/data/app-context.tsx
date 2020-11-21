@@ -12,6 +12,7 @@ export interface Apartment {
     renovation: number,
     rent: number,
     vacancy: number,
+    userId?: string,
 }
 
 export interface Profile {
@@ -41,13 +42,12 @@ export const defaultProfile: Profile = {
 }
 
 interface AppContext {
-    initContext: () => void,
     apartments: Apartment[],
     addApartment: (newApartment: Apartment) => void,
-    deleteApartment: (id: string) => void,
+    deleteApartment: (apartment: Apartment) => void,
     updateApartment: (updatedApartment: Apartment) => void,
 
-    
+
     profile: Profile,
     updateProfile: (updatedProfile: Profile) => void,
 
@@ -58,18 +58,17 @@ interface AppContext {
 }
 
 const AppContext = React.createContext<AppContext>({
-    initContext: () => { },
     apartments: [],
     addApartment: () => { },
     deleteApartment: () => { },
     updateApartment: () => { },
-    
+
     profile: defaultProfile,
     updateProfile: () => { },
 
     user: null,
     authenticated: false,
-    setUser: () => {},
+    setUser: () => { },
     loadingAuthState: false,
 });
 

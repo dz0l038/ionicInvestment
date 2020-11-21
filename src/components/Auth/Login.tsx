@@ -37,7 +37,6 @@ const Login: React.FC = () => {
     }
 
     const handleSubmit = (event: any) => {
-        console.log(values)
         event.preventDefault();
         firebase
             .auth()

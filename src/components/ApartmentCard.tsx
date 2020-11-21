@@ -1,16 +1,15 @@
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonImg, IonRow } from '@ionic/react';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonRow } from '@ionic/react';
 import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../data/app-context';
 import { profitability, totalPrice } from '../helpers/helpers';
 import { ROUTE_DETAIL } from '../nav/Routes';
 import defaultImg from '../assets/default.png';
-import { Plugins, FilesystemDirectory } from '@capacitor/core';
-
-const { Filesystem } = Plugins;
+import firebase from '../firebase';
+import 'firebase/storage';
 
 const ApartmentCard: React.FC<{ apartmentId: string }> = (props) => {
   const appCtx = useContext(AppContext);
-  const [pictureBase64, setPictureBase64] = useState<string>();
+  const [profileUrl, setProfileUrl] = useState<string>();
 
   const apartment = appCtx.apartments.find(apartment => apartment.id === props.apartmentId)
   let priceTotal = 0;
@@ -19,15 +18,12 @@ const ApartmentCard: React.FC<{ apartmentId: string }> = (props) => {
   }
 
   const updateBase64 = async () => {
-    if (apartment?.pictures !== undefined && apartment?.pictures?.length > 0) {
-      const file = await Filesystem.readFile({
-        path: apartment.pictures[0],
-        directory: FilesystemDirectory.Data
-      })
-      setPictureBase64('data:image/jpeg;base64,' + file.data)
-    } else {
-      setPictureBase64(undefined)
-    }
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
+    if (!apartment?.pictures || apartment?.pictures.length < 1) return
+    storageRef.child(apartment.pictures[0]).getDownloadURL().then(function (url) {
+      setProfileUrl(url)
+    })
   }
 
   useEffect(() => {
@@ -40,7 +36,7 @@ const ApartmentCard: React.FC<{ apartmentId: string }> = (props) => {
       {
         apartment &&
         <IonCard routerLink={ROUTE_DETAIL + apartment?.id}>
-          <img src={pictureBase64 ? pictureBase64 : defaultImg} />
+          <img src={profileUrl ? profileUrl : defaultImg} />
           <IonCardHeader>
             <IonCardSubtitle>
               <IonGrid className="ion-no-padding">

@@ -10,29 +10,26 @@ const { Camera } = Plugins;
 
 export interface Picture {
     filename: string,
-    webPath: string,
     base64: string,
 }
 
-const AddPictureNewApartment: React.FC<{ updatePicture: (picture: Picture) => void}> = (props) => {
+const AddPictureNewApartment: React.FC<{ updatePicture: (picture: Picture) => void }> = (props) => {
     const [picture, setPicture] = useState<Picture>()
 
     const takePhotoHandler = async () => {
         const photo = await Camera.getPhoto({
             quality: 80,
-            resultType: CameraResultType.Uri,
+            resultType: CameraResultType.Base64,
             source: CameraSource.Prompt,
             width: 500,
         });
 
-        if (!photo || !photo.webPath) return
+        if (!photo || !photo.base64String) return
 
-        const base64 = await base64FromPath(photo.webPath)
         const fileName = new Date().getTime() + '.jpeg'
         const newPicture: Picture = {
             filename: fileName,
-            webPath: photo.webPath,
-            base64: base64,
+            base64: photo.base64String,
         }
         setPicture(newPicture)
         props.updatePicture(newPicture)
@@ -44,7 +41,7 @@ const AddPictureNewApartment: React.FC<{ updatePicture: (picture: Picture) => vo
             <IonGrid>
                 <IonRow className="ion-align-items-center ion-padding-top">
                     <IonCol>
-                        <div className="img-container" style={{ backgroundImage: `url(${picture ? picture.webPath : defaultImg})` }} />
+                        <div className="img-container" style={{ backgroundImage: `url(${picture ? 'data:image/jpeg;base64,' + picture.base64 : defaultImg})` }} />
                     </IonCol>
                     <IonCol>
                         <IonButton onClick={takePhotoHandler} className="ion-margin"><IonIcon icon={cameraOutline} /></IonButton>

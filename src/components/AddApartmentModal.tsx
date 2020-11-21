@@ -1,11 +1,10 @@
-import { FilesystemDirectory, Plugins } from '@capacitor/core';
 import {
+    IonAlert,
     IonButton,
     IonCol,
     IonContent,
     IonGrid,
     IonHeader,
-    IonIcon,
     IonInput,
     IonItem,
     IonLabel,
@@ -20,8 +19,9 @@ import {
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import AppContext, { Apartment } from '../data/app-context';
 import AddPictureNewApartment, { Picture } from './AddPictureNewApartment';
-
-const { Filesystem } = Plugins;
+import { v4 as uuidv4 } from 'uuid';
+import firebase from "../firebase";
+import 'firebase/storage';
 
 const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: boolean) => void }> = (props) => {
     const addressRef = useRef<HTMLIonInputElement>(null);
@@ -33,36 +33,53 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
     const noteRef = useRef<HTMLIonTextareaElement>(null);
     const appCtx = useContext(AppContext);
     const [picture, setPicture] = useState<Picture>();
+    const apartUuid = useRef<string>(uuidv4())
+    const [showAlert, setShowAlert] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>();
 
     const resetModal = () => {
         setPicture(undefined)
+        apartUuid.current = uuidv4();
     }
 
     const addHandler = async () => {
-        // Save picture on filesystem
-        if (picture) {
-            console.log(picture)
-            await Filesystem.writeFile({
-                path: picture.filename,
-                data: picture.base64,
-                directory: FilesystemDirectory.Data
-            })
+        if (!appCtx.user?.uid) return
+        // Save picture on firebase
+        let pictures: string[] = [];
+        if (picture && picture.base64) {
+            const newPictureName = appCtx.user.uid + '/' + apartUuid.current + '.jpeg';
+            const storage = firebase.storage();
+            const storageRef = storage.ref();
+            const imageRef = storageRef.child(newPictureName);
+            await imageRef.putString(picture.base64, 'base64')
+            pictures.push(newPictureName)
         }
 
         let newApartment: Apartment = {
-            id: new Date().toISOString(),
+            id: apartUuid.current,
+            userId: appCtx.user?.uid,
             address: addressRef.current?.value ? addressRef.current?.value?.toString() : "Unknown address",
             price: priceRef.current?.value ? +priceRef.current?.value : 0,
             addDate: new Date().toISOString(),
             notes: noteRef.current?.value?.toString(),
-            pictures: picture?.filename ? [picture?.filename] : [],
+            pictures: pictures,
             surface: surfaceRef.current?.value ? +surfaceRef.current?.value : 0,
             renovation: renovationRef.current?.value ? +renovationRef.current?.value : 0,
             rent: rentRef.current?.value ? +rentRef.current?.value : 0,
             vacancy: vacancyRef.current?.value ? +vacancyRef.current?.value : 0,
         }
-        appCtx.addApartment(newApartment)
-        props.setShowModal(false)
+
+        const db = firebase.firestore();
+        await db.collection(`Apartments`)
+            .doc(newApartment.id)
+            .set(newApartment)
+            .then(() => {
+                props.setShowModal(false)
+            })
+            .catch(error => {
+                setErrorMessage(error.message)
+                setShowAlert(true)
+            });
     }
 
     const updatePicture = (newPicture: Picture) => {
@@ -127,6 +144,16 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
                     </IonRow>
                 </IonGrid>
             </IonContent>
+            <IonAlert
+                isOpen={showAlert}
+                header={errorMessage}
+                onDidDismiss={() => { setErrorMessage(""); setShowAlert(false) }}
+                buttons={[
+                    {
+                        text: 'Ok'
+                    }
+                ]}
+            />
         </IonModal>
     );
 };

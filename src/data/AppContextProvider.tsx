@@ -1,10 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppContext, { Apartment, Profile, defaultProfile } from './app-context';
 import firebase from "../firebase";
-
-import { Plugins } from '@capacitor/core'
-
-const { Storage, Filesystem } = Plugins;
 
 const AppContextProvider: React.FC = (props) => {
     const [apartments, setApartments] = useState<Apartment[]>([])
@@ -13,8 +9,6 @@ const AppContextProvider: React.FC = (props) => {
     // Auth state
     const [user, setUser] = useState(null as firebase.User | null);
     const [loadingAuthState, setLoadingAuthState] = useState(true);
-
-    const didMountRef = useRef(false);
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user: any) => {
@@ -29,42 +23,70 @@ const AppContextProvider: React.FC = (props) => {
                         console.log("Current data: ", updatedProfile);
                         setProfile(updatedProfile)
                     });
+                db.collection('Apartments').where("userId", "==", firebaseUser.uid)
+                    .orderBy("addDate")
+                    .onSnapshot(function (querySnapshot) {
+                        let listApartments: Apartment[] = []
+                        querySnapshot.forEach(function (doc) {
+                            listApartments.push(doc.data() as Apartment);
+                        });
+                        setApartments(listApartments)
+                    });
+
+                /*
+                var apartmentsRef = firebase.firestore().ref('Users/' + firebaseUser.uid + '/Apartments');
+                apartmentsRef.on("child_added", function (snapshot) {
+                    console.log(snapshot)
+                });
+                */
             }
         });
     }, []);
 
-    useEffect(() => {
-        if (didMountRef.current) {
-            console.log(profile)
-            Storage.set({ key: 'apartments', value: JSON.stringify(apartments) })
-        } else {
-            didMountRef.current = true;
-        }
-    }, [apartments])
+    const addApartment = async (newapartment: Apartment) => {
 
-    const addApartment = (newapartment: Apartment) => {
+        /*
         setApartments((prevState) => {
             let newList = [...prevState];
             newList.unshift(newapartment)
             return newList
         })
+        */
     }
 
-    const deleteApartment = (id: string) => {
-        const index = apartments.map(el => el.id).indexOf(id)
-        setApartments((prevState) => {
-            let newList = [...prevState];
-            newList.splice(index, 1)
-            return newList
+    const deleteApartment = (apartment: Apartment) => {
+        if (apartment.pictures.length > 0) {
+            apartment.pictures.forEach(picture => {
+                const storage = firebase.storage();
+                const storageRef = storage.ref();
+                const imageRef = storageRef.child(picture);
+                imageRef.delete()
+            });
+        }
+        const db = firebase.firestore();
+        const docRef = db.collection('Apartments').doc(apartment.id);
+        db.runTransaction(function (transaction) {
+            return transaction.get(docRef).then(function (doc) {
+                if (!doc.exists) {
+                    console.log("Fail to delete apartment")
+                } else {
+                    transaction.delete(docRef)
+                }
+            })
         })
     }
 
-    const updateApartment = (updateApartment: Apartment) => {
-        const index = apartments.map(el => el.id).indexOf(updateApartment.id)
-        setApartments((prevState) => {
-            let newList = [...prevState];
-            newList.splice(index, 1, updateApartment)
-            return newList
+    const updateApartment = (updatedApartment: Apartment) => {
+        const db = firebase.firestore();
+        const docRef = db.collection('Apartments').doc(updatedApartment.id);
+        db.runTransaction(function (transaction) {
+            return transaction.get(docRef).then(function (doc) {
+                if (!doc.exists) {
+                    console.log("Fail to update apartment")
+                } else {
+                    transaction.update(docRef, updatedApartment)
+                }
+            })
         })
     }
 
@@ -82,16 +104,7 @@ const AppContextProvider: React.FC = (props) => {
         })
     }
 
-    const initContext = async () => {
-        const apartmentsData = await Storage.get({ key: 'apartments' })
-        const storedApartments = apartmentsData.value ? JSON.parse(apartmentsData.value) : [];
-        didMountRef.current = false;
-        setApartments(storedApartments)
-    }
-
     return <AppContext.Provider value={{
-        initContext,
-
         apartments,
         addApartment,
         deleteApartment,

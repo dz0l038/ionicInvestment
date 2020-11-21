@@ -30,17 +30,18 @@ import ApartmentInputNotes from '../components/ApartmentInputNotes';
 import AppContext from '../data/app-context';
 import { cashflow, monthLoanPrice, priceM2, profitability, loanAmount, totalPrice } from '../helpers/helpers';
 import { ROUTE_LIST } from '../nav/Routes';
-import { Plugins, FilesystemDirectory, CameraResultType, CameraSource } from '@capacitor/core';
-import { base64FromPath } from '@ionic/react-hooks/filesystem';
+import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 import ResponsiveContent from '../components/ResponsiveContent';
+import firebase from '../firebase';
+import 'firebase/storage';
 
-const { Filesystem, Camera } = Plugins;
+const { Camera } = Plugins;
 
 const Details: React.FC = () => {
   const history = useHistory();
   const id = useParams<{ id: string }>().id;
   const [showAlert, setShowAlert] = useState(false);
-  const [picturesBase64, setPicturesBase64] = useState<string[]>();
+  const [pictureUrl, setPictureUrl] = useState<string>();
   const appCtx = useContext(AppContext)
 
   const apartment = appCtx.apartments.find(apartment => apartment.id === id)
@@ -57,7 +58,7 @@ const Details: React.FC = () => {
   const deleteHandler = () => {
     console.log(apartment)
     if (apartment?.id) {
-      appCtx.deleteApartment(apartment.id)
+      appCtx.deleteApartment(apartment)
       history.goBack();
     }
   }
@@ -69,47 +70,42 @@ const Details: React.FC = () => {
     appCtx.updateApartment(updatedapartment);
   }
 
-  const updateBase64 = async () => {
-    if (apartment?.pictures !== undefined && apartment?.pictures?.length > 0) {
-      const listBase64 = await Promise.all(apartment.pictures.map(async (filename) => {
-        const file = await Filesystem.readFile({
-          path: filename,
-          directory: FilesystemDirectory.Data
-        })
-        return 'data:image/jpeg;base64,' + file.data
-      }))
-      setPicturesBase64(listBase64)
-    } else {
-      setPicturesBase64([])
-    }
+  const updatePictureDisplayed = async () => {
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
+    if (!apartment || apartment.pictures.length < 1) return
+    storageRef.child(apartment.pictures[0]).getDownloadURL().then(function (url) {
+      console.log(url)
+      setPictureUrl(url)
+    })
   }
 
   const takePhotoHandler = async () => {
-    if (!apartment) return
     const photo = await Camera.getPhoto({
       quality: 80,
-      resultType: CameraResultType.Uri,
+      resultType: CameraResultType.Base64,
       source: CameraSource.Prompt,
       width: 500,
     });
 
-    if (!photo || !photo.webPath) return
+    if (!photo || !photo.base64String || !apartment || !appCtx.user) return
 
-    const base64 = await base64FromPath(photo.webPath)
-    const fileName = new Date().getTime() + '.jpeg'
-    await Filesystem.writeFile({
-      path: fileName,
-      data: base64,
-      directory: FilesystemDirectory.Data
-    })
+    const fileName = appCtx.user.uid + '/' + apartment.id + '.jpeg';
+
+    const storage = firebase.storage();
+    const storageRef = storage.ref();
+    const imageRef = storageRef.child(fileName);
+    const uploadTask = await imageRef.putString(photo.base64String, 'base64')
+    console.log(uploadTask)
 
     let updatedApartment = { ...apartment }
     updatedApartment.pictures = [fileName];
     appCtx.updateApartment(updatedApartment)
+    updatePictureDisplayed();
   }
 
   useEffect(() => {
-    updateBase64()
+    updatePictureDisplayed()
   }, [apartment?.pictures])
 
   return (
@@ -125,15 +121,11 @@ const Details: React.FC = () => {
 
       {apartment &&
         <IonContent className="ion-padding-bottom" >
-          {picturesBase64 &&
+          {pictureUrl &&
             <IonSlides pager style={{ backgroundColor: "lightgrey" }}>
-              {
-                picturesBase64.map((picture, index) => (
-                  <IonSlide key={index} >
-                    <IonImg style={{ height: "200px" }} src={picture} />
-                  </IonSlide>
-                ))
-              }
+              <IonSlide>
+                <IonImg style={{ height: "200px" }} src={pictureUrl} />
+              </IonSlide>
             </IonSlides>
           }
 
@@ -216,10 +208,8 @@ const Details: React.FC = () => {
               </ResponsiveContent>
             </IonRow>
           </IonGrid>
-
         </IonContent>
       }
-
 
       <IonAlert
         isOpen={showAlert}

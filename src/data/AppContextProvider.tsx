@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AppContext, { Apartment, Profile, defaultProfile } from './app-context';
 import firebase from "../firebase";
+import { useTranslation } from 'react-i18next';
 
 const AppContextProvider: React.FC = (props) => {
     const [apartments, setApartments] = useState<Apartment[]>([])
@@ -9,6 +10,8 @@ const AppContextProvider: React.FC = (props) => {
     // Auth state
     const [user, setUser] = useState(null as firebase.User | null);
     const [loadingAuthState, setLoadingAuthState] = useState(true);
+
+    const { i18n } = useTranslation();
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user: any) => {
@@ -104,6 +107,10 @@ const AppContextProvider: React.FC = (props) => {
         })
     }
 
+    const updateLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+    }
+
     return <AppContext.Provider value={{
         apartments,
         addApartment,
@@ -116,7 +123,9 @@ const AppContextProvider: React.FC = (props) => {
         user,
         authenticated: user !== null,
         setUser,
-        loadingAuthState
+        loadingAuthState,
+
+        updateLanguage
     }}>
         {props.children}
     </AppContext.Provider>

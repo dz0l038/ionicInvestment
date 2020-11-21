@@ -27,17 +27,13 @@ import './theme/theme.css';
 import { ROUTE_DETAIL, ROUTE_LIST, ROUTE_TABS_BASE } from './nav/Routes';
 import Details from './pages/Details';
 import Tabs from './nav/Tabs';
-import AppContext from './data/app-context';
 import AuthRoutes from './nav/AuthRoutes';
 import PrivateRoute from './nav/PrivateRoutes';
 
+// Import translations
+import './translations/i18n';
+
 const App: React.FC = () => {
-  const appCtx = useContext(AppContext);
-
-  useEffect(() => {
-    appCtx.initContext();
-  }, [])
-
   return (
     <IonApp>
       <IonReactRouter>

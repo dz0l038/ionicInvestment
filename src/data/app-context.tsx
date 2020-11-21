@@ -52,9 +52,11 @@ interface AppContext {
     updateProfile: (updatedProfile: Profile) => void,
 
     user: firebase.User | null,
-    authenticated: boolean;
-    setUser: any;
-    loadingAuthState: boolean;
+    authenticated: boolean,
+    setUser: any,
+    loadingAuthState: boolean,
+
+    updateLanguage: (lng: string) => void,
 }
 
 const AppContext = React.createContext<AppContext>({
@@ -70,6 +72,8 @@ const AppContext = React.createContext<AppContext>({
     authenticated: false,
     setUser: () => { },
     loadingAuthState: false,
+
+    updateLanguage: () => { },
 });
 
 export default AppContext

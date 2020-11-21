@@ -20,11 +20,15 @@ import ResponsiveContent from '../components/ResponsiveContent';
 import Logout from '../components/Auth/Logout';
 import { logOutOutline } from 'ionicons/icons';
 
+import { useTranslation } from 'react-i18next';
+import SelectLanguage from '../components/SelectLanguage';
+
 const ProfilePicture = React.lazy(() => import('../components/ProfilePicture'))
 
 const Profile: React.FC = () => {
   const [showAlert, setShowAlert] = useState(false);
   const appCtx = useContext(AppContext)
+  const { t, i18n } = useTranslation('profile');
 
   const updateUsername = (newUsername: string) => {
     let updatedProfile = { ...appCtx.profile }
@@ -47,13 +51,14 @@ const Profile: React.FC = () => {
               </Logout>
             </IonCol>
           </IonRow>
+          <SelectLanguage />
           <IonRow>
             <ResponsiveContent>
               <IonList className="ion-padding" mode="ios">
                 <IonListHeader className="ion-padding-bottom">
                   Financial Information
                 </IonListHeader>
-                <FinancialInfoItem field='loanRate' friendlyName='Loan rate' unit="%" />
+                <FinancialInfoItem field='loanRate' friendlyName={t('loan-rate')} unit="%" />
                 <FinancialInfoItem field='insuranceRate' friendlyName='Insurance loan rate' unit="%" />
                 <FinancialInfoItem field='loanPeriod' friendlyName='Loan period' unit=" years" />
                 <FinancialInfoItem field='notaryFees' friendlyName='Notary fees' unit="%" />

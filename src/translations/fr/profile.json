@@ -1,3 +1,9 @@
 {
-    "loan-rate": "Taux d'interet"
+    "financial-information": "Informations financières",
+    "loan-rate": "Taux d'emprunt",
+    "insurance-loan-rate": "Taux d'assurance",
+    "loan-period": "Période d'emprunt",
+    "notary-fees": "Frais de notaire",
+    "contribution": "Apport",
+    "logout": "Déconnexion"
 }

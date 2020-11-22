@@ -28,7 +28,7 @@ const ProfilePicture = React.lazy(() => import('../components/ProfilePicture'))
 const Profile: React.FC = () => {
   const [showAlert, setShowAlert] = useState(false);
   const appCtx = useContext(AppContext)
-  const { t, i18n } = useTranslation('profile');
+  const { t } = useTranslation('profile');
 
   const updateUsername = (newUsername: string) => {
     let updatedProfile = { ...appCtx.profile }
@@ -47,7 +47,7 @@ const Profile: React.FC = () => {
             <IonCol size="12" onClick={() => setShowAlert(true)} className="ion-text-center">{appCtx.profile.username}</IonCol>
             <IonCol size="12" className="ion-text-end ion-padding">
               <Logout>
-                <IonButton fill="default"><IonIcon slot="start" icon={logOutOutline} />Logout</IonButton>
+                <IonButton fill="default"><IonIcon slot="start" icon={logOutOutline} />{t('logout')}</IonButton>
               </Logout>
             </IonCol>
           </IonRow>
@@ -56,13 +56,13 @@ const Profile: React.FC = () => {
             <ResponsiveContent>
               <IonList className="ion-padding" mode="ios">
                 <IonListHeader className="ion-padding-bottom">
-                  Financial Information
+                  {t('financial-information')}
                 </IonListHeader>
                 <FinancialInfoItem field='loanRate' friendlyName={t('loan-rate')} unit="%" />
-                <FinancialInfoItem field='insuranceRate' friendlyName='Insurance loan rate' unit="%" />
-                <FinancialInfoItem field='loanPeriod' friendlyName='Loan period' unit=" years" />
-                <FinancialInfoItem field='notaryFees' friendlyName='Notary fees' unit="%" />
-                <FinancialInfoItem field='contribution' friendlyName='Contribution' unit="€" />
+                <FinancialInfoItem field='insuranceRate' friendlyName={t('insurance-loan-rate')} unit="%" />
+                <FinancialInfoItem field='loanPeriod' friendlyName={t('loan-period')} unit=" years" />
+                <FinancialInfoItem field='notaryFees' friendlyName={t('notary-fees')} unit="%" />
+                <FinancialInfoItem field='contribution' friendlyName={t('contribution')} unit="€" />
               </IonList>
             </ResponsiveContent>
           </IonRow>

@@ -1,18 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import firebase from "../../firebase";
 import "firebase/auth";
 import "firebase/firestore";
-import AppContext from "../../data/app-context";
-import {  ROUTE_LOGIN } from "../../nav/Routes";
+import { ROUTE_LOGIN } from "../../nav/Routes";
 import { IonAlert, IonButton, IonContent, IonPage } from "@ionic/react";
 import Logout from "./Logout";
+import { Trans, useTranslation } from "react-i18next";
 
 const MailConfirmation: React.FC = () => {
-    const appCtx = useContext(AppContext);
     const history = useHistory();
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>();
+    const { t } = useTranslation('general');
 
     useEffect(() => {
         sendVerificationEmail()
@@ -22,7 +22,7 @@ const MailConfirmation: React.FC = () => {
         const userCredential = firebase.auth().currentUser;
         if (!userCredential) { history.push(ROUTE_LOGIN); return }
         userCredential.sendEmailVerification().then(() => {
-            setErrorMessage("Email sent")
+            setErrorMessage(t('auth.email-sent'))
             setShowAlert(true)
         }).catch((error) => {
             setErrorMessage(error.message)
@@ -42,17 +42,17 @@ const MailConfirmation: React.FC = () => {
                     <div style={{ display: "flex", flexDirection: "row" }}>
                         <div style={{ flexGrow: 1 }} />
                         <div style={{ textAlign: 'center' }}>
-                            <h1>An Email has been sent<br />to verify your address</h1>
+                            <h1><Trans>{t('auth.email-sent-title')}</Trans></h1>
                             <form>
                                 <Logout>
-                                    <IonButton>Login</IonButton>
+                                    <IonButton>{t('auth.login')}</IonButton>
                                 </Logout>
                                 <div>
                                     <p style={{ margin: "0", marginTop: "2em" }}>
-                                        Didn't receive it?
+                                        {t('auth.didnt-receive')}
                                     </p>
 
-                                    <IonButton onClick={handleClick} fill="clear">Send it again</IonButton>
+                                    <IonButton onClick={handleClick} fill="clear">{t('auth.send-again')}</IonButton>
                                 </div>
                             </form>
                         </div>

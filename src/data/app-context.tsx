@@ -23,7 +23,8 @@ export interface Profile {
     insuranceRate: number,
     loanPeriod: number,
     notaryFees: number,
-    contribution: number
+    contribution: number,
+    lng?: string,
 }
 
 export type FinancialInfoFields = "loanRate" | "insuranceRate" | "loanPeriod" | "notaryFees" | "contribution";

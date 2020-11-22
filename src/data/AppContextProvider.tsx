@@ -35,13 +35,6 @@ const AppContextProvider: React.FC = (props) => {
                         });
                         setApartments(listApartments)
                     });
-
-                /*
-                var apartmentsRef = firebase.firestore().ref('Users/' + firebaseUser.uid + '/Apartments');
-                apartmentsRef.on("child_added", function (snapshot) {
-                    console.log(snapshot)
-                });
-                */
             }
         });
     }, []);
@@ -94,6 +87,7 @@ const AppContextProvider: React.FC = (props) => {
     }
 
     const updateProfile = (updatedProfile: Profile) => {
+        if (!user?.uid) return
         const db = firebase.firestore();
         const docRef = db.collection('Users').doc(user?.uid);
         db.runTransaction(function (transaction) {
@@ -108,7 +102,10 @@ const AppContextProvider: React.FC = (props) => {
     }
 
     const updateLanguage = (lng: string) => {
-        i18n.changeLanguage(lng);
+        i18n.changeLanguage(lng)
+        let newProfile = { ...profile };
+        newProfile.lng = lng;
+        updateProfile(newProfile);
     }
 
     return <AppContext.Provider value={{

@@ -1,0 +1,21 @@
+{
+    "auth" : {
+        "logout": "Logout",
+        "login": "Login",
+        "email": "Email",
+        "password": "Password",
+        "no-account": "No account yet?",
+        "sign-up": "Sign up",
+        "forgot-psw": "Forgot your password?",
+        "reset-psw": "Reset password",
+        "username": "Username",
+        "already-have-account": "Already have an account?",
+        "back-login": "Back to login",
+        "email-sent": "Email sent",
+        "email-sent-title": "An Email has been sent to verify your address",
+        "didnt-receive": "Didn't recieve it?",
+        "send-again": "Send it again",
+        "reset-alert": "An email has been sent to reset your password",
+        "reset-btn": "Reset"
+    }
+}

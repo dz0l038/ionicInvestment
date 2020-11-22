@@ -7,6 +7,8 @@ import AppContext from "../../data/app-context";
 import { ROUTE_LIST, ROUTE_RESET_PSW, ROUTE_SIGN_UP } from "../../nav/Routes";
 import { IonAlert, IonButton, IonContent, IonIcon, IonInput, IonItem, IonLabel, IonList, IonPage } from "@ionic/react";
 import { logoGoogle } from "ionicons/icons";
+import { useTranslation } from "react-i18next";
+import SelectLanguage from "../SelectLanguage";
 
 interface UserData {
     email: string;
@@ -21,6 +23,7 @@ const Login: React.FC = () => {
         email: "",
         password: ""
     });
+    const { t } = useTranslation('general');
 
     useEffect(() => {
         if (firebase.auth().currentUser) {
@@ -65,20 +68,20 @@ const Login: React.FC = () => {
                     <div style={{ display: "flex", flexDirection: "row" }}>
                         <div style={{ flexGrow: 1 }} />
                         <div style={{ textAlign: 'center' }}>
-                            <h1>Login</h1>
+                            <h1>{t('auth.login')}</h1>
                             <form onSubmit={handleSubmit}>
                                 <IonList>
                                     <IonItem>
-                                        <IonLabel position="floating">Email</IonLabel>
+                                        <IonLabel position="floating">{t('auth.email')}</IonLabel>
                                         <IonInput type="text" name="email" value={values.email} onIonChange={handleChange}></IonInput>
                                     </IonItem>
                                     <IonItem>
-                                        <IonLabel position="floating">Password</IonLabel>
+                                        <IonLabel position="floating">{t('auth.password')}</IonLabel>
                                         <IonInput type="password" name="password" value={values.password} onIonChange={handleChange} ></IonInput>
                                     </IonItem>
                                 </IonList>
                                 <div style={{ marginTop: "1em" }}>
-                                    <IonButton expand="full" onClick={handleSubmit}>Login</IonButton>
+                                    <IonButton expand="full" onClick={handleSubmit}>{t('auth.login')}</IonButton>
                                 </div>
                                 {/* 
                                 <div style={{ marginTop: "1em", paddingTop: "1em", borderTop: "1px solid grey" }}>
@@ -91,17 +94,18 @@ const Login: React.FC = () => {
 
                                 <div>
                                     <p style={{ margin: "0", marginTop: "2em" }}>
-                                        Not logged in yet?
+                                        {t('auth.no-account')}
                                     </p>
-                                    <IonButton routerLink={ROUTE_SIGN_UP} fill="clear">SignUp</IonButton>
+                                    <IonButton routerLink={ROUTE_SIGN_UP} fill="clear">{t('auth.sign-up')}</IonButton>
                                 </div>
                                 <div style={{ fontSize: "0.9em" }}>
                                     <p style={{ margin: "0", marginTop: "1em" }}>
-                                        Forgot your password?
+                                        {t('auth.forgot-psw')}
                                     </p>
-                                    <IonButton style={{ fontSize: "1em" }} routerLink={ROUTE_RESET_PSW} fill="clear">Reset password</IonButton>
+                                    <IonButton style={{ fontSize: "1em" }} routerLink={ROUTE_RESET_PSW} fill="clear">{t('auth.reset-psw')}</IonButton>
                                 </div>
                             </form>
+                            <SelectLanguage />
                         </div>
                         <div style={{ flexGrow: 1 }} />
                     </div>

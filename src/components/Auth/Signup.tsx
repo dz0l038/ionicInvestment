@@ -6,6 +6,7 @@ import "firebase/firestore";
 import AppContext from "../../data/app-context";
 import { ROUTE_LIST, ROUTE_LOGIN } from "../../nav/Routes";
 import { IonAlert, IonButton, IonContent, IonInput, IonItem, IonLabel, IonList, IonPage } from "@ionic/react";
+import { useTranslation } from "react-i18next";
 interface FormItems {
     username: string;
     email: string;
@@ -20,6 +21,7 @@ const SignUp = () => {
         email: "",
         password: "",
     } as FormItems);
+    const { t } = useTranslation('general');
 
     const history = useHistory();
     const handleClick = () => {
@@ -43,6 +45,7 @@ const SignUp = () => {
                     loanRate: 2,
                     notaryFees: 8,
                     picture: null,
+                    lng: 'en',
                 }
                 const db = firebase.firestore();
                 db.collection("Users")
@@ -78,31 +81,31 @@ const SignUp = () => {
                     <div style={{ display: "flex", flexDirection: "row" }}>
                         <div style={{ flexGrow: 1 }} />
                         <div style={{ textAlign: 'center' }}>
-                            <h1>Sign Up</h1>
+                            <h1>{t('auth.sign-up')}</h1>
                             <form onSubmit={handleSubmit}>
                                 <IonList>
                                     <IonItem>
-                                        <IonLabel position="floating">Username</IonLabel>
+                                        <IonLabel position="floating">{t('auth.username')}</IonLabel>
                                         <IonInput type="text" name="username" value={values.username} onIonChange={handleChange}></IonInput>
                                     </IonItem>
                                     <IonItem>
-                                        <IonLabel position="floating">Email</IonLabel>
+                                        <IonLabel position="floating">{t('auth.email')}</IonLabel>
                                         <IonInput type="text" name="email" value={values.email} onIonChange={handleChange}></IonInput>
                                     </IonItem>
                                     <IonItem>
-                                        <IonLabel position="floating">Password</IonLabel>
+                                        <IonLabel position="floating">{t('auth.password')}</IonLabel>
                                         <IonInput type="password" name="password" value={values.password} onIonChange={handleChange} ></IonInput>
                                     </IonItem>
                                 </IonList>
                                 <div style={{ marginTop: "1em" }}>
-                                    <IonButton expand="full" onClick={handleSubmit}>Sign Up</IonButton>
+                                    <IonButton expand="full" onClick={handleSubmit}>{t('auth.sign-up')}</IonButton>
                                 </div>
 
                                 <div>
                                     <p style={{ margin: "0", marginTop: "2em" }}>
-                                        Already have account?
-                  </p>
-                                    <IonButton onClick={handleClick} fill="clear">Login</IonButton>
+                                        {t('auth.already-have-account')}
+                                    </p>
+                                    <IonButton onClick={handleClick} fill="clear">{t('auth.login')}</IonButton>
                                 </div>
                                 <p></p>
                             </form>

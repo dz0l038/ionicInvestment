@@ -1,0 +1,21 @@
+{
+    "auth" : {
+        "logout": "Déconnexion",
+        "login": "Connexion",
+        "email": "Email",
+        "password": "Mot de passe",
+        "no-account": "Pas encore de compte?",
+        "sign-up": "Créer un compte",
+        "forgot-psw": "Mot de passe oublié?",
+        "reset-psw": "Réinitialiser le mot de passe",
+        "username": "Nom d'utilisateur",
+        "already-have-account": "Déjà un compte?",
+        "back-login": "Retour à la page de connexion",
+        "email-sent": "Email envoyé",
+        "email-sent-title": "Un email a été envoyé pour verifier votre compte",
+        "didnt-receive": "Pas reçu?",
+        "send-again": "Envoyé de nouveau",
+        "reset-alert": "Un email a été envoyé pour reinitialiser votre mot de passe",
+        "reset-btn": "Réinitialiser"
+    }
+}

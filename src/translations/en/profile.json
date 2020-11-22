@@ -1,3 +1,9 @@
 {
-    "loan-rate": "Loan rate"
+    "financial-information": "Financial information",
+    "loan-rate": "Loan rate",
+    "insurance-loan-rate": "Insurance loan rate",
+    "loan-period": "Loan period",
+    "notary-fees": "Notary fees",
+    "contribution": "Contribution",
+    "logout": "Logout"
 }

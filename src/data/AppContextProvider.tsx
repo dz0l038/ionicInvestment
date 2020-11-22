@@ -27,7 +27,7 @@ const AppContextProvider: React.FC = (props) => {
                         setProfile(updatedProfile)
                     });
                 db.collection('Apartments').where("userId", "==", firebaseUser.uid)
-                    .orderBy("addDate")
+                    //.orderBy("addDate")
                     .onSnapshot(function (querySnapshot) {
                         let listApartments: Apartment[] = []
                         querySnapshot.forEach(function (doc) {

@@ -7,6 +7,7 @@ import { ROUTE_LOGIN } from "../../nav/Routes";
 import { IonAlert, IonButton, IonContent, IonPage } from "@ionic/react";
 import Logout from "./Logout";
 import { Trans, useTranslation } from "react-i18next";
+import AuthWrapper from "./AuthWrapper";
 
 const MailConfirmation: React.FC = () => {
     const history = useHistory();
@@ -35,32 +36,21 @@ const MailConfirmation: React.FC = () => {
     }
 
     return (
-        <IonPage>
-            <IonContent fullscreen>
-                <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-                    <div style={{ flexGrow: 1 }} />
-                    <div style={{ display: "flex", flexDirection: "row" }}>
-                        <div style={{ flexGrow: 1 }} />
-                        <div style={{ textAlign: 'center' }}>
-                            <h1><Trans>{t('auth.email-sent-title')}</Trans></h1>
-                            <form>
-                                <Logout>
-                                    <IonButton>{t('auth.login')}</IonButton>
-                                </Logout>
-                                <div>
-                                    <p style={{ margin: "0", marginTop: "2em" }}>
-                                        {t('auth.didnt-receive')}
-                                    </p>
+        <div>
+            <h1><Trans>{t('auth.email-sent-title')}</Trans></h1>
+            <form>
+                <Logout>
+                    <IonButton>{t('auth.login')}</IonButton>
+                </Logout>
+                <div>
+                    <p style={{ margin: "0", marginTop: "2em" }}>
+                        {t('auth.didnt-receive')}
+                    </p>
 
-                                    <IonButton onClick={handleClick} fill="clear">{t('auth.send-again')}</IonButton>
-                                </div>
-                            </form>
-                        </div>
-                        <div style={{ flexGrow: 1 }} />
-                    </div>
-                    <div style={{ flexGrow: 1 }} />
+                    <IonButton onClick={handleClick} fill="clear">{t('auth.send-again')}</IonButton>
                 </div>
-            </IonContent>
+            </form>
+
             <IonAlert
                 isOpen={showAlert}
                 header={errorMessage}
@@ -71,7 +61,7 @@ const MailConfirmation: React.FC = () => {
                     }
                 ]}
             />
-        </IonPage>
+        </div>
     );
 }
 

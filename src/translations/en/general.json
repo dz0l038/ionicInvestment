@@ -1,7 +1,7 @@
 {
     "auth" : {
         "logout": "Logout",
-        "login": "Login",
+        "login": "Hi! Login",
         "email": "Email",
         "password": "Password",
         "no-account": "No account yet?",

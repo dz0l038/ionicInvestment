@@ -1,12 +1,19 @@
 {
-  "appId": "fr.ycode.investment",
-  "appName": "investment",
+  "appId": "com.dzolo.nitimmo",
+  "appName": "Nitimo",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0
+    },
+    "PushNotifications": {
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
     }
   },
   "cordova": {},

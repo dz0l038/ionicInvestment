@@ -32,11 +32,13 @@ import PrivateRoute from './nav/PrivateRoutes';
 
 // Import translations
 import './translations/i18n';
+import Notifications from './components/Notifications';
 
 const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
+        <Notifications />
         <IonRouterOutlet>
           <Switch>
             <PrivateRoute path={ROUTE_TABS_BASE} component={Tabs} />

@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.dzolo.nitimmo;
 
 import android.os.Bundle;
 

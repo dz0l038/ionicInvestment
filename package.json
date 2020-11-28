@@ -1,5 +1,5 @@
 {
-  "name": "investment",
+  "name": "nitimmo",
   "jest": {
     "transformIgnorePatterns": [
       "/node_modules/?!(@capacitor/core)"

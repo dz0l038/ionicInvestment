@@ -16,7 +16,7 @@ import {
     IonTitle,
     IonToolbar
 } from '@ionic/react';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import AppContext, { Apartment } from '../data/app-context';
 import AddPictureNewApartment, { Picture } from './AddPictureNewApartment';
 import { v4 as uuidv4 } from 'uuid';
@@ -24,13 +24,13 @@ import firebase from "../firebase";
 import 'firebase/storage';
 
 const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: boolean) => void }> = (props) => {
-    const addressRef = useRef<HTMLIonInputElement>(null);
-    const priceRef = useRef<HTMLIonInputElement>(null);
-    const surfaceRef = useRef<HTMLIonInputElement>(null);
-    const renovationRef = useRef<HTMLIonInputElement>(null);
-    const rentRef = useRef<HTMLIonInputElement>(null);
-    const vacancyRef = useRef<HTMLIonInputElement>(null);
-    const noteRef = useRef<HTMLIonTextareaElement>(null);
+    const [address, setAddress] = useState<string>("New Address")
+    const [surface, setSurface] = useState<number>(50)
+    const [price, setPrice] = useState<number>(100000)
+    const [renovation, setRenovation] = useState<number>(1000)
+    const [rent, setRent] = useState<number>(500)
+    const [vacancy, setVacancy] = useState<number>(0)
+    const [note, setNote] = useState<string>("")
     const appCtx = useContext(AppContext);
     const [picture, setPicture] = useState<Picture>();
     const apartUuid = useRef<string>(uuidv4())
@@ -58,15 +58,15 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
         let newApartment: Apartment = {
             id: apartUuid.current,
             userId: appCtx.user?.uid,
-            address: addressRef.current?.value ? addressRef.current?.value?.toString() : "Unknown address",
-            price: priceRef.current?.value ? +priceRef.current?.value : 0,
+            address: address ? address.toString() : "Unknown address",
+            price: price ? +price : 0,
             addDate: new Date().toISOString(),
-            notes: noteRef.current?.value?.toString(),
+            notes: note.toString(),
             pictures: pictures,
-            surface: surfaceRef.current?.value ? +surfaceRef.current?.value : 0,
-            renovation: renovationRef.current?.value ? +renovationRef.current?.value : 0,
-            rent: rentRef.current?.value ? +rentRef.current?.value : 0,
-            vacancy: vacancyRef.current?.value ? +vacancyRef.current?.value : 0,
+            surface: surface? +surface : 0,
+            renovation: renovation ? +renovation : 0,
+            rent: rent ? +rent : 0,
+            vacancy: vacancy ? +vacancy : 0,
         }
 
         const db = firebase.firestore();
@@ -105,31 +105,31 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
                     </IonListHeader>
                     <IonItem>
                         <IonLabel position="floating">Address</IonLabel>
-                        <IonInput ref={addressRef} value="New Address"></IonInput>
+                        <IonInput onIonChange={(e) => {if (e.detail.value) setAddress(e.detail.value)}} value={address}></IonInput>
                     </IonItem>
                     <IonListHeader className="ion-margin-top">Financial</IonListHeader>
                     <IonItem>
                         <IonLabel position="floating">Price</IonLabel>
-                        <IonInput type="number" ref={priceRef} value={100000}></IonInput>
+                        <IonInput value={price} onIonChange={(e) => {if (e.detail.value) setPrice(+e.detail.value)}} type="number"></IonInput>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Surface</IonLabel>
-                        <IonInput type="number" ref={surfaceRef} value={5}></IonInput>
+                        <IonInput value={surface} onIonChange={(e) => {if (e.detail.value) setSurface(+e.detail.value)}} type="number" ></IonInput>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Renovation</IonLabel>
-                        <IonInput type="number" ref={renovationRef} value={0}></IonInput>
+                        <IonInput value={renovation} onIonChange={(e) => {if (e.detail.value) setRenovation(+e.detail.value)}} type="number"></IonInput>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Rent</IonLabel>
-                        <IonInput type="number" ref={rentRef} value={500}></IonInput>
+                        <IonInput value={rent} onIonChange={(e) => {if (e.detail.value) setRent(+e.detail.value)}} type="number"></IonInput>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Vacancy</IonLabel>
-                        <IonInput type="number" ref={vacancyRef} value={0}></IonInput>
+                        <IonInput value={vacancy} onIonChange={(e) => {if (e.detail.value) setVacancy(+e.detail.value)}} type="number"></IonInput>
                     </IonItem>
                     <IonItem className="ion-padding-top">
-                        <IonTextarea rows={5} placeholder="Enter any notes here..." ref={noteRef}></IonTextarea>
+                        <IonTextarea value={note} onIonChange={(e) => {if (e.detail.value) setNote(e.detail.value)}} rows={5} placeholder="Enter any notes here..."></IonTextarea>
                     </IonItem>
                     <AddPictureNewApartment updatePicture={updatePicture} />
                 </IonList>

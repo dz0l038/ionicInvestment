@@ -1,6 +1,5 @@
-import { CameraResultType, CameraSource, FilesystemDirectory, Plugins } from '@capacitor/core'
+import { CameraResultType, CameraSource, Plugins } from '@capacitor/core'
 import { IonButton, IonCol, IonGrid, IonIcon, IonListHeader, IonRow } from '@ionic/react'
-import { base64FromPath } from '@ionic/react-hooks/filesystem'
 import { cameraOutline } from 'ionicons/icons'
 import React, { useState } from 'react'
 import defaultImg from '../assets/default.png'

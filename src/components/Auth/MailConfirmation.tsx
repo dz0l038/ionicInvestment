@@ -4,10 +4,9 @@ import firebase from "../../firebase";
 import "firebase/auth";
 import "firebase/firestore";
 import { ROUTE_LOGIN } from "../../nav/Routes";
-import { IonAlert, IonButton, IonContent, IonPage } from "@ionic/react";
+import { IonAlert, IonButton } from "@ionic/react";
 import Logout from "./Logout";
 import { Trans, useTranslation } from "react-i18next";
-import AuthWrapper from "./AuthWrapper";
 
 const MailConfirmation: React.FC = () => {
     const history = useHistory();
@@ -25,6 +24,9 @@ const MailConfirmation: React.FC = () => {
         userCredential.sendEmailVerification().then(() => {
             setErrorMessage(t('auth.email-sent'))
             setShowAlert(true)
+            firebase
+                .auth()
+                .signOut()
         }).catch((error) => {
             setErrorMessage(error.message)
             setShowAlert(true)
@@ -39,9 +41,7 @@ const MailConfirmation: React.FC = () => {
         <div>
             <h1><Trans>{t('auth.email-sent-title')}</Trans></h1>
             <form>
-                <Logout>
-                    <IonButton>{t('auth.login')}</IonButton>
-                </Logout>
+                <IonButton routerLink={ROUTE_LOGIN}>{t('auth.login')}</IonButton>
                 <div>
                     <p style={{ margin: "0", marginTop: "2em" }}>
                         {t('auth.didnt-receive')}

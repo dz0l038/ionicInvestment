@@ -24,7 +24,7 @@ import './theme/variables.css';
 import './theme/theme.css';
 
 /* Routes */
-import { ROUTE_DETAIL, ROUTE_LIST, ROUTE_TABS_BASE } from './nav/Routes';
+import { ROUTE_AUTH_BASE, ROUTE_DETAIL, ROUTE_LIST, ROUTE_POLICY, ROUTE_TABS_BASE } from './nav/Routes';
 import Details from './pages/Details';
 import Tabs from './nav/Tabs';
 import AuthRoutes from './nav/AuthRoutes';
@@ -33,6 +33,7 @@ import PrivateRoute from './nav/PrivateRoutes';
 // Import translations
 import './translations/i18n';
 import Notifications from './components/Notifications';
+import Policy from './pages/Policy';
 
 const App: React.FC = () => {
   return (
@@ -43,7 +44,8 @@ const App: React.FC = () => {
           <Switch>
             <PrivateRoute path={ROUTE_TABS_BASE} component={Tabs} />
             <PrivateRoute exact path={`${ROUTE_DETAIL}:id`} component={Details} />
-            <Route path="/auth" component={AuthRoutes} />
+            <Route path={ROUTE_AUTH_BASE} component={AuthRoutes} />
+            <Route path={ROUTE_POLICY} component={Policy} />
             <Redirect path="/" to={ROUTE_LIST} />
           </Switch>
         </IonRouterOutlet>

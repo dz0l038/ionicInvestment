@@ -1,6 +1,6 @@
 {
   "appId": "com.dzolo.nitimmo",
-  "appName": "Nitimo",
+  "appName": "Nitimmo",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",

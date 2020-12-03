@@ -36,7 +36,15 @@ const ApartmentCard: React.FC<{ apartmentId: string }> = (props) => {
       {
         apartment &&
         <IonCard routerLink={ROUTE_DETAIL + apartment?.id}>
-          <img src={profileUrl ? profileUrl : defaultImg} />
+          <div style={{
+            width: "100%",
+            paddingBottom: "70%",
+            backgroundImage: `url(${profileUrl ? profileUrl : defaultImg})`,
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            overflow: "hidden"
+          }} />
+
           <IonCardHeader>
             <IonCardSubtitle>
               <IonGrid className="ion-no-padding">

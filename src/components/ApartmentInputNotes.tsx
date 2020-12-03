@@ -13,9 +13,10 @@ const ApartmentInputNotes: React.FC<{ apartment: Apartment }> = (props) => {
         appCtx.updateApartment(updatedApartment);
     }
     return (
-        <IonItem className="ion-margin-bottom">
-            <IonLabel onClick={() => setShowAlert(true)}>
-                <p>{props.apartment.notes}</p>
+        <IonItem onClick={() => setShowAlert(true)} >
+            <IonLabel>
+                <h2>Notes:</h2>
+                {props.apartment.notes}
             </IonLabel>
             <IonAlert
                 isOpen={showAlert}

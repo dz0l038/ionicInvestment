@@ -16,7 +16,7 @@ import './Profile.scss';
 
 import AppContext from '../data/app-context';
 import FinancialInfoItem from '../components/FinancialInfoItem';
-import ResponsiveContent from '../components/ResponsiveContent';
+import ResponsiveCol from '../components/ResponsiveCol';
 import Logout from '../components/Auth/Logout';
 import { logOutOutline } from 'ionicons/icons';
 
@@ -53,7 +53,7 @@ const Profile: React.FC = () => {
           </IonRow>
           <SelectLanguage />
           <IonRow>
-            <ResponsiveContent>
+            <ResponsiveCol>
               <IonList className="ion-padding" mode="ios">
                 <IonListHeader className="ion-padding-bottom">
                   {t('financial-information')}
@@ -64,7 +64,7 @@ const Profile: React.FC = () => {
                 <FinancialInfoItem field='notaryFees' friendlyName={t('notary-fees')} unit="%" />
                 <FinancialInfoItem field='contribution' friendlyName={t('contribution')} unit="€" />
               </IonList>
-            </ResponsiveContent>
+            </ResponsiveCol>
           </IonRow>
         </IonGrid>
       </IonContent>

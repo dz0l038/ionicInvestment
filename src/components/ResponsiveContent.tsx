@@ -1,10 +1,15 @@
-import { IonCol } from '@ionic/react';
+import { IonGrid, IonRow } from '@ionic/react';
 import React from 'react';
+import ResponsiveCol from './ResponsiveCol';
 
 const ResponsiveContent: React.FC = (props) => (
-    <IonCol sizeSm="10" sizeMd="8" offsetSm="1" offsetMd="2">
-        {props.children}
-    </IonCol>
+    <IonGrid className="ion-no-padding">
+        <IonRow>
+            <ResponsiveCol>
+                {props.children}
+            </ResponsiveCol>
+        </IonRow>
+    </IonGrid>
 )
 
 export default ResponsiveContent

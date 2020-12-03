@@ -1,5 +1,9 @@
 :root {
     --ion-toolbar-background: var(--ion-color-primary);
     --ion-toolbar-color: var(--ion-color-primary-contrast);
-    --ion-font-family: "Ubuntu", "Comic Sans"
+    --ion-font-family: "Ubuntu", "Comic Sans";
+}
+
+ion-header {
+    background-color: var(--ion-color-primary);
 }

@@ -34,6 +34,8 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 import ResponsiveContent from '../components/ResponsiveContent';
 import firebase from '../firebase';
 import 'firebase/storage';
+import defaultPics from '../assets/default.png'
+import ResponsiveCol from '../components/ResponsiveCol';
 
 const { Camera } = Plugins;
 
@@ -111,32 +113,32 @@ const Details: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonButtons slot='start'>
-            <IonBackButton defaultHref={ROUTE_LIST} />
-          </IonButtons>
-          <IonTitle>{apartment?.address}</IonTitle>
-        </IonToolbar>
+        <ResponsiveContent>
+          <IonToolbar>
+            <IonButtons slot='start'>
+              <IonBackButton defaultHref={ROUTE_LIST} />
+            </IonButtons>
+            <IonTitle>{apartment?.address}</IonTitle>
+          </IonToolbar>
+        </ResponsiveContent>
       </IonHeader>
 
       {apartment &&
         <IonContent className="ion-padding-bottom" >
-          {pictureUrl &&
-            <IonSlides pager style={{ backgroundColor: "lightgrey" }}>
-              <IonSlide>
-                <IonImg style={{ height: "200px" }} src={pictureUrl} />
-              </IonSlide>
-            </IonSlides>
-          }
+          <IonSlides pager style={{ backgroundColor: "lightgrey" }}>
+            <IonSlide>
+              <IonImg style={{ height: "200px" }} src={pictureUrl ? pictureUrl : defaultPics} />
+            </IonSlide>
+          </IonSlides>
 
           <IonGrid>
             <IonRow>
-              <ResponsiveContent>
+              <ResponsiveCol>
                 <IonGrid>
                   <IonRow className="ion-align-items-center">
                     <IonCol style={{ color: "grey" }}>
                       {apartment?.pictures.length} pictures
-                </IonCol>
+                    </IonCol>
                     <IonCol className="ion-text-end">
                       <IonButton onClick={takePhotoHandler} size="small" fill="outline">
                         <IonIcon icon={camera} />
@@ -151,14 +153,15 @@ const Details: React.FC = () => {
                       {apartment?.address}
                     </IonLabel>
                   </IonItem>
-                  <ApartmentInputNotes apartment={apartment} />
+                  
                   <ApartmentInputItems field="price" apartment={apartment} friendlyName="Price" unit="€" />
                   <ApartmentInputItems field="surface" apartment={apartment} friendlyName="Surface" unit=" m²" />
                   <ApartmentInputItems field="renovation" apartment={apartment} friendlyName="Renovation" unit="€" />
                   <ApartmentInputItems field="rent" apartment={apartment} friendlyName="Rent" unit="€" />
                   <ApartmentInputItems field="vacancy" apartment={apartment} friendlyName="Vacancy" unit=" month" />
-
+                  <ApartmentInputNotes apartment={apartment} />
                   <IonListHeader className="ion-padding-vertical" >Output data</IonListHeader>
+                  
                   <IonItem>
                     <IonLabel>
                       Price per m² (buy)
@@ -205,7 +208,7 @@ const Details: React.FC = () => {
                     </IonCol>
                   </IonRow>
                 </IonGrid>
-              </ResponsiveContent>
+              </ResponsiveCol>
             </IonRow>
           </IonGrid>
         </IonContent>

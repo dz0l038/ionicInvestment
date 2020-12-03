@@ -9,7 +9,8 @@ import {
   IonPage,
   IonRow,
   IonTitle,
-  IonToolbar
+  IonToolbar,
+  isPlatform
 } from '@ionic/react';
 import React, { useContext, useState } from 'react';
 
@@ -17,6 +18,7 @@ import { add } from 'ionicons/icons';
 import ApartmentCard from '../components/ApartmentCard';
 import AddApartmentModal from '../components/AddApartmentModal';
 import AppContext from '../data/app-context';
+import ResponsiveCol from '../components/ResponsiveCol';
 import ResponsiveContent from '../components/ResponsiveContent';
 
 const List: React.FC = () => {
@@ -26,14 +28,16 @@ const List: React.FC = () => {
     <IonPage>
       <AddApartmentModal showModal={showModal} setShowModal={setShowModal} />
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>List</IonTitle>
-        </IonToolbar>
+        <ResponsiveContent>
+          <IonToolbar>
+            <IonTitle>List</IonTitle>
+          </IonToolbar>
+        </ResponsiveContent>
       </IonHeader>
       <IonContent className="ion-padding">
         <IonGrid className="ion-no-padding">
           <IonRow>
-            <ResponsiveContent>
+            <ResponsiveCol>
               <IonGrid>
                 <IonRow>
                   {
@@ -50,10 +54,14 @@ const List: React.FC = () => {
                   }
                 </IonRow>
               </IonGrid>
-            </ResponsiveContent>
+            </ResponsiveCol>
           </IonRow>
         </IonGrid>
-        <IonFab vertical={appCtx.apartments.length > 0 ? "bottom" : "center"} horizontal={appCtx.apartments.length > 0 ? "end" : "center"} slot="fixed">
+        <IonFab
+          vertical={appCtx.apartments.length > 0 ? "bottom" : "center"}
+          horizontal={appCtx.apartments.length === 0 || isPlatform('desktop') ? "center" : "end"}
+          style={{bottom: isPlatform('desktop') ? '20px' : null}}
+          slot="fixed">
           <IonFabButton onClick={() => setShowModal(true)}>
             <IonIcon icon={add} />
           </IonFabButton>

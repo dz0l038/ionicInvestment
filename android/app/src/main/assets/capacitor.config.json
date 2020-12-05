@@ -1,0 +1,21 @@
+{
+  "appId": "com.dzolo.nitimmo",
+  "appName": "Nitimmo",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    },
+    "PushNotifications": {
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
+    }
+  },
+  "cordova": {},
+  "linuxAndroidStudioPath": "/home/yann/Documents/Software/android-studio/bin/studio.sh"
+}

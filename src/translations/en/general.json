@@ -17,5 +17,35 @@
         "send-again": "Send it again",
         "reset-alert": "An email has been sent to reset your password",
         "reset-btn": "Reset"
+    },
+    "tabs" : {
+        "list": "List",
+        "profile": "Profile"
+    },
+    "apartment" : {
+        "nothingToShow": "Nothing to show yet, add your first apartment using the button below:",
+        "add": "Add new apartment",
+        "localisation": "Localisation",
+        "address": "Address",
+        "financial": "Financial",
+        "price": "Price",
+        "surface": "Surface",
+        "renovation": "Renovation",
+        "rent": "Rent",
+        "vacancy": "Vacancy",
+        "notes": "Notes",
+        "notesPlaceholder": "Enter any notes here...",
+        "picture": "Picture",
+        "save": "Save",
+        "cancel": "Cancel",
+        "inputData": "Input data",
+        "outpuData": "Output data",
+        "pricem2buy": "Price per m² (buy)",
+        "pricem2rent": "Price per m² (rent)",
+        "loanAmount": "Loan amount",
+        "loanAmountSubtitle": "(price + notary fees<br/>+ renovation - contribution)",
+        "loanPrice": "Loan price (month)",
+        "profitability": "Profitability",
+        "cashflow": "Cashflow"
     }
 }

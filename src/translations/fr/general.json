@@ -17,5 +17,35 @@
         "send-again": "Envoyé de nouveau",
         "reset-alert": "Un email a été envoyé pour reinitialiser votre mot de passe",
         "reset-btn": "Réinitialiser"
+    },
+    "tabs" : {
+        "list": "Liste",
+        "profile": "Profil"
+    },
+    "apartment" : {
+        "nothingToShow": "Aucun appartement pour le moment, utilisez le boutton ci dessous pour commencer à en ajouter.",
+        "add": "Ajouter un nouvel appartement",
+        "localisation": "Position",
+        "address": "Adresse",
+        "financial": "Financier",
+        "price": "Prix",
+        "surface": "Surface",
+        "renovation": "Renovation",
+        "rent": "Loyer",
+        "vacancy": "Vacances",
+        "notes": "Notes",
+        "notesPlaceholder": "Ajouter une notes ici...",
+        "picture": "Photo",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "inputData": "Informations d'entrées",
+        "outpuData": "Resultas",
+        "pricem2buy": "Prix au m² (achat)",
+        "pricem2rent": "Prix au m² (location)",
+        "loanAmount": "Montant du prêt",
+        "loanAmountSubtitle": "(prix + frais de notaire<br/>+ renovation - apport)",
+        "loanPrice": "Coût du prêt (mois)",
+        "profitability": "Rentabilité",
+        "cashflow": "Cashflow"
     }
 }

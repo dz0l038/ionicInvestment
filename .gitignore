@@ -10,7 +10,7 @@
 
 # production
 /build
-/android
+/android/app/google-services.json
 
 # misc
 .DS_Store

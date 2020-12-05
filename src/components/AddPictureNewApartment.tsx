@@ -2,6 +2,7 @@ import { CameraResultType, CameraSource, Plugins } from '@capacitor/core'
 import { IonButton, IonCol, IonGrid, IonIcon, IonListHeader, IonRow } from '@ionic/react'
 import { cameraOutline } from 'ionicons/icons'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import defaultImg from '../assets/default.png'
 import './AddPictureNewApartment.scss'
 
@@ -14,6 +15,7 @@ export interface Picture {
 
 const AddPictureNewApartment: React.FC<{ updatePicture: (picture: Picture) => void }> = (props) => {
     const [picture, setPicture] = useState<Picture>()
+    const { t } = useTranslation('general');
 
     const takePhotoHandler = async () => {
         const photo = await Camera.getPhoto({
@@ -36,7 +38,7 @@ const AddPictureNewApartment: React.FC<{ updatePicture: (picture: Picture) => vo
 
     return (
         <div id="AddPictureNewApartment">
-            <IonListHeader className="ion-margin-top">Pictures</IonListHeader>
+            <IonListHeader className="ion-margin-top">{t('apartment.picture')}</IonListHeader>
             <IonGrid>
                 <IonRow className="ion-align-items-center ion-padding-top">
                     <IonCol>

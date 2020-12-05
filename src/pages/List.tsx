@@ -20,17 +20,19 @@ import AddApartmentModal from '../components/AddApartmentModal';
 import AppContext from '../data/app-context';
 import ResponsiveCol from '../components/ResponsiveCol';
 import ResponsiveContent from '../components/ResponsiveContent';
+import { useTranslation } from 'react-i18next';
 
 const List: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const appCtx = useContext(AppContext);
+  const { t } = useTranslation('general');
   return (
     <IonPage>
       <AddApartmentModal showModal={showModal} setShowModal={setShowModal} />
       <IonHeader>
         <ResponsiveContent>
           <IonToolbar>
-            <IonTitle>List</IonTitle>
+            <IonTitle>{t('tabs.list')}</IonTitle>
           </IonToolbar>
         </ResponsiveContent>
       </IonHeader>
@@ -49,7 +51,7 @@ const List: React.FC = () => {
                       ))
                       :
                       <h3 className="ion-text-center">
-                        Nothing to show yet, add your first apartment using the button below:
+                        {t('apartment.nothingToShow')}
                       </h3>
                   }
                 </IonRow>
@@ -60,7 +62,7 @@ const List: React.FC = () => {
         <IonFab
           vertical={appCtx.apartments.length > 0 ? "bottom" : "center"}
           horizontal={appCtx.apartments.length === 0 || isPlatform('desktop') ? "center" : "end"}
-          style={{bottom: isPlatform('desktop') ? '20px' : null}}
+          style={{ bottom: isPlatform('desktop') ? '20px' : null }}
           slot="fixed">
           <IonFabButton onClick={() => setShowModal(true)}>
             <IonIcon icon={add} />

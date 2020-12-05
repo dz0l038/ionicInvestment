@@ -36,6 +36,7 @@ import firebase from '../firebase';
 import 'firebase/storage';
 import defaultPics from '../assets/default.png'
 import ResponsiveCol from '../components/ResponsiveCol';
+import { Trans, useTranslation } from 'react-i18next';
 
 const { Camera } = Plugins;
 
@@ -45,6 +46,7 @@ const Details: React.FC = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [pictureUrl, setPictureUrl] = useState<string>();
   const appCtx = useContext(AppContext)
+  const { t } = useTranslation('general');
 
   const apartment = appCtx.apartments.find(apartment => apartment.id === id)
 
@@ -137,7 +139,7 @@ const Details: React.FC = () => {
                 <IonGrid>
                   <IonRow className="ion-align-items-center">
                     <IonCol style={{ color: "grey" }}>
-                      {apartment?.pictures.length} pictures
+                      {apartment?.pictures.length} {t('apartment.picture')}
                     </IonCol>
                     <IonCol className="ion-text-end">
                       <IonButton onClick={takePhotoHandler} size="small" fill="outline">
@@ -147,55 +149,56 @@ const Details: React.FC = () => {
                   </IonRow>
                 </IonGrid>
                 <IonList className="ion-padding-vertical" mode="ios">
-                  <IonListHeader>Input data</IonListHeader>
+                  <IonListHeader>{t('apartment.inputData')}</IonListHeader>
                   <IonItem>
                     <IonLabel onClick={() => setShowAlert(true)}>
                       {apartment?.address}
                     </IonLabel>
                   </IonItem>
-                  
-                  <ApartmentInputItems field="price" apartment={apartment} friendlyName="Price" unit="€" />
-                  <ApartmentInputItems field="surface" apartment={apartment} friendlyName="Surface" unit=" m²" />
-                  <ApartmentInputItems field="renovation" apartment={apartment} friendlyName="Renovation" unit="€" />
-                  <ApartmentInputItems field="rent" apartment={apartment} friendlyName="Rent" unit="€" />
-                  <ApartmentInputItems field="vacancy" apartment={apartment} friendlyName="Vacancy" unit=" month" />
+
+                  <ApartmentInputItems field="price" apartment={apartment} friendlyName={t('apartment.price')} unit="€" />
+                  <ApartmentInputItems field="surface" apartment={apartment} friendlyName={t('apartment.surface')} unit=" m²" />
+                  <ApartmentInputItems field="renovation" apartment={apartment} friendlyName={t('apartment.renovation')} unit="€" />
+                  <ApartmentInputItems field="rent" apartment={apartment} friendlyName={t('apartment.rent')} unit="€" />
+                  <ApartmentInputItems field="vacancy" apartment={apartment} friendlyName={t('apartment.vacancy')} unit=" month" />
                   <ApartmentInputNotes apartment={apartment} />
                   <IonListHeader className="ion-padding-vertical" >Output data</IonListHeader>
-                  
+
                   <IonItem>
                     <IonLabel>
-                      Price per m² (buy)
-                  </IonLabel>
+                      {t('apartment.pricem2buy')}
+                    </IonLabel>
                     <IonNote slot="end">{priceM2(apartment.price, apartment.surface).toFixed(2)}€/m²</IonNote>
                   </IonItem>
                   <IonItem>
                     <IonLabel>
-                      Price per m² (rent)
-                  </IonLabel>
+                      {t('apartment.pricem2rent')}
+                    </IonLabel>
                     <IonNote slot="end">{priceM2(apartment.rent, apartment.surface).toFixed(2)}€/m²</IonNote>
                   </IonItem>
                   <IonItem>
                     <IonLabel>
-                      Loan amount (price + notary fees + renovation - contribution)
-                  </IonLabel>
+                      <Trans>{t('apartment.loanAmount')}</Trans>
+                      <p><Trans>{t('apartment.loanAmountSubtitle')}</Trans></p>
+                    </IonLabel>
                     <IonNote slot="end">{loanTotal.toFixed(2)}€</IonNote>
                   </IonItem>
                   <IonItem>
                     <IonLabel>
-                      Loan price (month)
-                  </IonLabel>
+                      {t('apartment.loanPrice')}
+                    </IonLabel>
                     <IonNote slot="end">{loanPriceMonth.toFixed(2)}€</IonNote>
                   </IonItem>
                   <IonItem>
                     <IonLabel>
-                      Profitability
-                  </IonLabel>
+                      {t('apartment.profitability')}
+                    </IonLabel>
                     <IonNote slot="end">{profitability(priceTotal, apartment.rent, apartment.vacancy).toFixed(2)}%</IonNote>
                   </IonItem>
                   <IonItem>
                     <IonLabel>
-                      Cashflow
-                  </IonLabel>
+                      {t('apartment.cashflow')}
+                    </IonLabel>
                     <IonNote slot="end">{cashflow(loanPriceMonth, apartment.rent, apartment.vacancy).toFixed(2)}€</IonNote>
                   </IonItem>
                 </IonList>

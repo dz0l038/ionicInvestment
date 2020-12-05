@@ -22,9 +22,11 @@ import AddPictureNewApartment, { Picture } from './AddPictureNewApartment';
 import { v4 as uuidv4 } from 'uuid';
 import firebase from "../firebase";
 import 'firebase/storage';
+import { useTranslation } from 'react-i18next';
 
 const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: boolean) => void }> = (props) => {
-    const [address, setAddress] = useState<string>("New Address")
+    const { t } = useTranslation('general');
+    const [address, setAddress] = useState<string>('')
     const [surface, setSurface] = useState<number>(50)
     const [price, setPrice] = useState<number>(100000)
     const [renovation, setRenovation] = useState<number>(1000)
@@ -35,7 +37,7 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
     const [picture, setPicture] = useState<Picture>();
     const apartUuid = useRef<string>(uuidv4())
     const [showAlert, setShowAlert] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>();
+    const [errorMessage, setErrorMessage] = useState<string>();    
 
     const resetModal = () => {
         setPicture(undefined)
@@ -90,7 +92,7 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
         <IonModal isOpen={props.showModal} onDidPresent={resetModal}>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Add new apartment</IonTitle>
+                    <IonTitle>{t('apartment.add')}</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -101,45 +103,45 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
                 </IonGrid>
                 <IonList className="ion-padding-bottom" mode="ios">
                     <IonListHeader>
-                        Localisation
+                    {t('apartment.localisation')}
                     </IonListHeader>
                     <IonItem>
-                        <IonLabel position="floating">Address</IonLabel>
+                        <IonLabel position="floating">{t('apartment.address')}</IonLabel>
                         <IonInput onIonChange={(e) => {if (e.detail.value) setAddress(e.detail.value)}} value={address}></IonInput>
                     </IonItem>
-                    <IonListHeader className="ion-margin-top">Financial</IonListHeader>
+                    <IonListHeader className="ion-margin-top">{t('apartment.financial')}</IonListHeader>
                     <IonItem>
-                        <IonLabel position="floating">Price</IonLabel>
+                        <IonLabel position="floating">{t('apartment.price')}</IonLabel>
                         <IonInput value={price} onIonChange={(e) => {if (e.detail.value) setPrice(+e.detail.value)}} type="number"></IonInput>
                     </IonItem>
                     <IonItem>
-                        <IonLabel position="floating">Surface</IonLabel>
+                        <IonLabel position="floating">{t('apartment.surface')}</IonLabel>
                         <IonInput value={surface} onIonChange={(e) => {if (e.detail.value) setSurface(+e.detail.value)}} type="number" ></IonInput>
                     </IonItem>
                     <IonItem>
-                        <IonLabel position="floating">Renovation</IonLabel>
+                        <IonLabel position="floating">{t('apartment.renovation')}</IonLabel>
                         <IonInput value={renovation} onIonChange={(e) => {if (e.detail.value) setRenovation(+e.detail.value)}} type="number"></IonInput>
                     </IonItem>
                     <IonItem>
-                        <IonLabel position="floating">Rent</IonLabel>
+                        <IonLabel position="floating">{t('apartment.rent')}</IonLabel>
                         <IonInput value={rent} onIonChange={(e) => {if (e.detail.value) setRent(+e.detail.value)}} type="number"></IonInput>
                     </IonItem>
                     <IonItem>
-                        <IonLabel position="floating">Vacancy</IonLabel>
+                        <IonLabel position="floating">{t('apartment.vacancy')}</IonLabel>
                         <IonInput value={vacancy} onIonChange={(e) => {if (e.detail.value) setVacancy(+e.detail.value)}} type="number"></IonInput>
                     </IonItem>
                     <IonItem className="ion-padding-top">
-                        <IonTextarea value={note} onIonChange={(e) => {if (e.detail.value) setNote(e.detail.value)}} rows={5} placeholder="Enter any notes here..."></IonTextarea>
+                        <IonTextarea value={note} onIonChange={(e) => {if (e.detail.value) setNote(e.detail.value)}} rows={5} placeholder={t('apartment.notesPlaceholder')}></IonTextarea>
                     </IonItem>
                     <AddPictureNewApartment updatePicture={updatePicture} />
                 </IonList>
                 <IonGrid>
                     <IonRow className="ion-justify-content-between">
                         <IonCol size="auto" >
-                            <IonButton fill="outline" onClick={() => props.setShowModal(false)}>Cancel</IonButton>
+                            <IonButton fill="outline" onClick={() => props.setShowModal(false)}>{t('apartment.cancel')}</IonButton>
                         </IonCol>
                         <IonCol size="auto" >
-                            <IonButton onClick={addHandler}>Save</IonButton>
+                            <IonButton onClick={addHandler}>{t('apartment.save')}</IonButton>
                         </IonCol>
                     </IonRow>
                 </IonGrid>

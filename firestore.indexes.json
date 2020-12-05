@@ -10,7 +10,7 @@
         },
         {
           "fieldPath": "addDate",
-          "order": "ASCENDING"
+          "order": "DESCENDING"
         }
       ]
     }

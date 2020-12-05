@@ -24,10 +24,11 @@ const AppContextProvider: React.FC = (props) => {
                     .onSnapshot(function (doc) {
                         const updatedProfile = doc.data() as Profile;
                         console.log("Current data: ", updatedProfile);
+                        if (updatedProfile.lng) i18n.changeLanguage(updatedProfile.lng)
                         setProfile(updatedProfile)
                     });
                 db.collection('Apartments').where("userId", "==", firebaseUser.uid)
-                    //.orderBy("addDate")
+                    .orderBy("addDate", "desc")
                     .onSnapshot(function (querySnapshot) {
                         let listApartments: Apartment[] = []
                         querySnapshot.forEach(function (doc) {

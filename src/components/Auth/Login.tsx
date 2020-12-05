@@ -7,7 +7,7 @@ import AppContext from "../../data/app-context";
 import { ROUTE_LIST, ROUTE_RESET_PSW, ROUTE_SIGN_UP } from "../../nav/Routes";
 import { IonAlert, IonButton, IonContent, IonIcon, IonInput, IonItem, IonLabel, IonList, IonPage } from "@ionic/react";
 import { logoGoogle } from "ionicons/icons";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import SelectLanguage from "../SelectLanguage";
 import AuthWrapper from "./AuthWrapper";
 
@@ -63,6 +63,7 @@ const Login: React.FC = () => {
 
     return (
         <div>
+            <h5><Trans>{t('auth.welcome')}</Trans></h5>
             <h1>{t('auth.login')}</h1>
             <form onSubmit={handleSubmit}>
                 <IonList>

@@ -1,5 +1,6 @@
 {
     "auth" : {
+        "welcome": "Bienvenue sur <strong>Nitimmo</strong><br/><br/>La façon la plus simple d'organiser vos opportunitées d'investissements",
         "logout": "Déconnexion",
         "login": "Connexion",
         "email": "Email",

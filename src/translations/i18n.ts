@@ -19,8 +19,8 @@ i18n
                 general: general_fr,
             },
         },
-        lng: 'en',
-        fallbackLng: 'en',
+        lng: 'fr',
+        fallbackLng: 'fr',
         debug: false,
     });
 

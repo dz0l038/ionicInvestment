@@ -2,8 +2,13 @@
     ion-content {
         .main-content {
             backdrop-filter: blur(20px);
-            //background-color: red;
             z-index: 100;
+            max-width: 500px;
+            h5 {
+                font-weight: 300;
+                margin-bottom: 2em;
+                font-size: 1.3em;
+            }
         }
 
         #wrapper {

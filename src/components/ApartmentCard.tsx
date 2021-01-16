@@ -50,7 +50,7 @@ const ApartmentCard: React.FC<{ apartmentId: string }> = (props) => {
               <IonGrid className="ion-no-padding">
                 <IonRow className="ion-justify-content-between">
                   <IonCol size="auto">{apartment?.price}€</IonCol>
-                  <IonCol size="auto">{profitability(priceTotal, apartment.rent, apartment.vacancy).toFixed(2)}%</IonCol>
+                  <IonCol size="auto">{profitability(priceTotal, apartment.rent, apartment.vacancy, apartment.charge).toFixed(2)}%</IonCol>
                 </IonRow>
               </IonGrid>
             </IonCardSubtitle>

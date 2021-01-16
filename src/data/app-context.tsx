@@ -12,6 +12,7 @@ export interface Apartment {
     renovation: number,
     rent: number,
     vacancy: number,
+    charge: number,
     userId?: string,
 }
 
@@ -29,7 +30,7 @@ export interface Profile {
 
 export type FinancialInfoFields = "loanRate" | "insuranceRate" | "loanPeriod" | "notaryFees" | "contribution";
 
-export type ApartmentInputFields = "price" | "surface" | "renovation" | "rent" | "vacancy";
+export type ApartmentInputFields = "price" | "surface" | "renovation" | "rent" | "vacancy" | "charge";
 
 export const defaultProfile: Profile = {
     id: '0',

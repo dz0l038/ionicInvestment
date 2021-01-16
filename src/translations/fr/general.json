@@ -47,6 +47,7 @@
         "loanAmountSubtitle": "(prix + frais de notaire<br/>+ renovation - apport)",
         "loanPrice": "Coût du prêt (mois)",
         "profitability": "Rentabilité",
-        "cashflow": "Cashflow"
+        "cashflow": "Cashflow",
+        "charge": "Autres frais"
     }
 }

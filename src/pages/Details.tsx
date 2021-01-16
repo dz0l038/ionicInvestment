@@ -159,6 +159,7 @@ const Details: React.FC = () => {
                   <ApartmentInputItems field="price" apartment={apartment} friendlyName={t('apartment.price')} unit="€" />
                   <ApartmentInputItems field="surface" apartment={apartment} friendlyName={t('apartment.surface')} unit=" m²" />
                   <ApartmentInputItems field="renovation" apartment={apartment} friendlyName={t('apartment.renovation')} unit="€" />
+                  <ApartmentInputItems field="charge" apartment={apartment} friendlyName={t('apartment.charge')} unit="€" />
                   <ApartmentInputItems field="rent" apartment={apartment} friendlyName={t('apartment.rent')} unit="€" />
                   <ApartmentInputItems field="vacancy" apartment={apartment} friendlyName={t('apartment.vacancy')} unit=" month" />
                   <ApartmentInputNotes apartment={apartment} />
@@ -193,13 +194,13 @@ const Details: React.FC = () => {
                     <IonLabel>
                       {t('apartment.profitability')}
                     </IonLabel>
-                    <IonNote slot="end">{profitability(priceTotal, apartment.rent, apartment.vacancy).toFixed(2)}%</IonNote>
+                    <IonNote slot="end">{profitability(priceTotal, apartment.rent, apartment.vacancy, apartment.charge).toFixed(2)}%</IonNote>
                   </IonItem>
                   <IonItem>
                     <IonLabel>
                       {t('apartment.cashflow')}
                     </IonLabel>
-                    <IonNote slot="end">{cashflow(loanPriceMonth, apartment.rent, apartment.vacancy).toFixed(2)}€</IonNote>
+                    <IonNote slot="end">{cashflow(loanPriceMonth, apartment.rent, apartment.vacancy, apartment.charge).toFixed(2)}€</IonNote>
                   </IonItem>
                 </IonList>
                 <IonGrid className="ion-margin-top">

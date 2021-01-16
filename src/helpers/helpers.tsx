@@ -9,12 +9,12 @@ export const monthLoanPrice = (loanAmount: number, interest: number, assuranceIn
     return monthlyAmount + assurance
 }
 
-export const profitability = (price: number, rent: number, vacancy: number) => {
-    return ((rent * (12 - vacancy)) / price * 100)
+export const profitability = (price: number, rent: number, vacancy: number, charge: number) => {
+    return ((rent * (12 - vacancy) - charge) / price * 100)
 }
 
-export const cashflow = (monthLoanPrice: number, rent: number, vacancy: number) => {
-    return (rent - monthLoanPrice - rent * vacancy / 12)
+export const cashflow = (monthLoanPrice: number, rent: number, vacancy: number, charge: number) => {
+    return (rent - monthLoanPrice - rent * vacancy / 12 - charge / 12)
 }
 
 export const loanAmount = (price: number, notaryFees: number, renovation: number, contribution: number) => {

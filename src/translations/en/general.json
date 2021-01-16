@@ -46,6 +46,7 @@
         "loanAmountSubtitle": "(price + notary fees<br/>+ renovation - contribution)",
         "loanPrice": "Loan price (month)",
         "profitability": "Profitability",
-        "cashflow": "Cashflow"
+        "cashflow": "Cashflow",
+        "charge": "Other fees"
     }
 }

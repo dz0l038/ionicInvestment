@@ -32,6 +32,7 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
     const [renovation, setRenovation] = useState<number>(1000)
     const [rent, setRent] = useState<number>(500)
     const [vacancy, setVacancy] = useState<number>(0)
+    const [charge, setCharge] = useState<number>(0)
     const [note, setNote] = useState<string>("")
     const appCtx = useContext(AppContext);
     const [picture, setPicture] = useState<Picture>();
@@ -68,6 +69,7 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
             surface: surface? +surface : 0,
             renovation: renovation ? +renovation : 0,
             rent: rent ? +rent : 0,
+            charge: charge ? +charge : 0,
             vacancy: vacancy ? +vacancy : 0,
         }
 
@@ -121,6 +123,10 @@ const AddApartmentModal: React.FC<{ showModal: boolean, setShowModal: (value: bo
                     <IonItem>
                         <IonLabel position="floating">{t('apartment.renovation')}</IonLabel>
                         <IonInput value={renovation} onIonChange={(e) => {if (e.detail.value) setRenovation(+e.detail.value)}} type="number"></IonInput>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel position="floating">{t('apartment.charge')}</IonLabel>
+                        <IonInput value={charge} onIonChange={(e) => {if (e.detail.value) setCharge(+e.detail.value)}} type="number"></IonInput>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">{t('apartment.rent')}</IonLabel>
